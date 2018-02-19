@@ -1,0 +1,40 @@
+.footer {
+
+  &__container {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex: 1;
+    background-color: white;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    outline: none;
+    background-color: inherit;
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  &__button:hover {
+    cursor: pointer;
+  }
+
+  &__button:active {
+    outline: none;
+    background-color: #f2f2f2;
+    opacity: 0.5;
+  }
+
+  &__text {
+    font-size: 15px;
+  }
+
+}

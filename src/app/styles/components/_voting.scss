@@ -1,0 +1,53 @@
+.voting {
+
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__widget {
+    font-size: 15px;
+  }
+
+  &__button {
+    padding: 8px;
+    background-color: inherit;
+    border: none;
+    opacity: 1;
+  }
+
+  &__button:focus {
+    border: 0;
+    outline: none;
+  }
+
+  &__button:active {
+    border: 0;
+    outline: none;
+    opacity: 0.5;
+  }
+
+  &__button:hover {
+    color: #00cccc;
+  }
+
+  &__button--liked {
+    padding: 8px;
+    background-color: #66ffff;
+    border: none;
+    opacity: 1;
+  }
+
+  &__button--liked:focus {
+    border: 0;
+    outline: none;
+  }
+
+  &__button--liked:active {
+    border: 0;
+    outline: none;
+    opacity: 0.5;
+  }
+
+}

@@ -1,0 +1,16 @@
+.piegraph {
+
+  &__container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 200px;
+  }
+
+  &__heading {
+    color: white;
+    font-size: 15px;
+  }
+
+}

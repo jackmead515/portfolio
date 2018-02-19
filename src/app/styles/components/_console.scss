@@ -1,0 +1,67 @@
+.console {
+  &__container {
+    background: url("/images/login_background.jpg");
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__window {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #e8e8e8;
+    background-color: #0cd1df;
+    background-color: rgba(12, 209, 223, 0.7);
+    max-width: 300px;
+    min-width: 300px;
+  }
+
+  &__guidewindow {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #e8e8e8;
+    background-color: #0cd1df;
+    background-color: rgba(12, 209, 223, 0.7);
+    max-width: 250px;
+  }
+
+  &__guidewindow__button {
+    transition: transform 0.1s;
+  }
+
+  &__guidewindow__button:hover {
+    transform: scale(1.25);
+    cursor: pointer;
+  }
+
+  &__guidewindow__button:active {
+    opacity: 0.5;
+  }
+
+  &__wrapper {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 490px) {
+    &__wrapper {
+      margin-top: 80px;
+    }
+  }
+}

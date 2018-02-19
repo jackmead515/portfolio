@@ -1,0 +1,45 @@
+.graphs {
+
+  &__arc {
+    pointer-events: all;
+    fill: rgba(173, 255, 107, 0.8);
+    transition: fill 0.3;
+  }
+
+  &__arc:hover {
+    fill: rgb(238, 146, 136);
+    cursor: pointer;
+  }
+
+  &__line {
+    stroke: rgba(173, 255, 107, 0.8);
+    stroke-width: 3px;
+    pointer-events: all;
+  }
+
+  &__line:hover {
+    stroke: rgb(238, 146, 136);
+  }
+
+  &__dot {
+    pointer-events: all;
+    fill: rgba(173, 255, 107, 0.8);
+    transition: fill 0.3;
+  }
+
+  &__dot:hover {
+    fill: rgb(238, 146, 136);
+    cursor: pointer;
+  }
+
+  &__tooltip {
+    position: absolute;
+    padding: 5px;
+    border-radius: 2px;
+    color: white;
+    background-color: rgba(12, 209, 223, 0.45);
+    border: 1px solid #e8e8e8;
+    pointer-events: none;
+  }
+
+}

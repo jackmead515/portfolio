@@ -18,7 +18,14 @@ export default class ShareButton extends Component {
           className="guide__sharebutton__container"
           style={{...this.props.style}}
         >
-          <input type="text" readOnly value={this.props.link} />
+          <div cd onClick={() => this.setState({displayLink: false})}>
+            <FAIcon
+              name="times"
+              style={{marginRight: 5, fontSize: 14}}
+              className="guide__sharebutton__icon"
+            />
+          </div>
+          <div>{this.props.link}</div>
         </div>
       );
     } else {
@@ -27,7 +34,11 @@ export default class ShareButton extends Component {
           className="guide__sharebutton__container"
           style={{...this.props.style}} onClick={() => this.setState({displayLink: true})}
         >
-          <FAIcon name="share-alt" style={{marginRight: 5}}/>
+          <FAIcon
+            name="share-alt"
+            style={{marginRight: 5, fontSize: 14}}
+            className="guide__sharebutton__icon"
+          />
           Share
         </div>
       );

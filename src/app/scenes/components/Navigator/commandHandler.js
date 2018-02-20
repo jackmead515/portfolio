@@ -34,7 +34,7 @@ const handleSearch = (cArr) => {
   switch(c.toLowerCase()) {
     case 'guides':
       let urlExtenstion = getGuideUrl(cArr);
-      history.push('/guides/' + urlExtenstion);
+      history.push('/guides/s/' + urlExtenstion);
       window.location.reload();
       return true;
     default:

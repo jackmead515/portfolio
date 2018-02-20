@@ -20,8 +20,8 @@ import Help from './app/scenes/Help';
 import Plugin from './app/scenes/Plugin';
 import Projects from './app/scenes/Projects';
 
-export const SERVERIP = '192.168.1.69:3000';
-export const APIIP = '192.168.1.69:5000';
+export const SERVERIP = '127.0.0.1:3000';
+export const APIIP = '127.0.0.1:5000';
 export const history = createBrowserHistory();
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
@@ -42,6 +42,7 @@ ReactDOM.render((
 
           <Route exact path="/about" component={About} />
           <Route exact path="/projects" component={Projects} />
+          <Route exact path="/help" component={Help} />
           <Route exact path="/admin" component={Admin} />
         </div>
       </Router>

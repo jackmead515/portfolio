@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Heading from '../../components/Heading';
 import LinkRef from '../../components/LinkRef';
@@ -7,7 +8,11 @@ import Image from '../../components/Image';
 import Post from '../../components/Post';
 import Border from '../../components/Border';
 
-export default class Help extends Component {
+import Footer from '../components/Footer';
+import Navigator from '../components/Navigator';
+import Menu from '../components/Navigator/Menu';
+
+class Help extends Component {
   constructor(props) {
     super(props);
 
@@ -33,9 +38,13 @@ export default class Help extends Component {
     }
   }
 
-  render() {
+  renderHelp() {
+    let paddingTop = 45;
+    let marginBottom = 60;
+    if(this.props.menu.opened) paddingTop = 90;
+
     return (
-      <div className="animated fadeIn" style={{...this.styles.container}}>
+      <div className="animated fadeIn" style={{...this.styles.container, paddingTop, marginBottom}}>
         <div style={{...this.styles.post, padding: 5}}>
           <Heading title="So you wanna master the command line..."/>
 
@@ -114,33 +123,20 @@ export default class Help extends Component {
     );
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  render() {
+    return (
+      <div className="dashboard__container">
+        <Navigator />
+        <Menu />
+        {this.renderHelp()}
+        <Footer />
+      </div>
+    );
+  }
 }
+
+const mapStateToProps = (state) => {
+  return { ...state };
+}
+
+export default connect(mapStateToProps)(Help);

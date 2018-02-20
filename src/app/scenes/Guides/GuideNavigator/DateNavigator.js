@@ -21,8 +21,8 @@ export default class DateNavigator extends Component {
     years = _.uniq(years);
     years = _.sortBy(years, (y) => -y);
 
-    return years.map((y) => {
-      return <YearDropDown year={y}/>
+    return years.map((y, i) => {
+      return <YearDropDown key={i} year={y}/>
     });
   }
 

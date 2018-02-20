@@ -55,7 +55,6 @@ export default class ImageContent extends Component {
             content.style = e.target.value;
             this.setState({content});
           }}
-
         />
         <textarea
           autoFocus

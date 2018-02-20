@@ -1,3 +1,4 @@
+
 export const navigateAdmin = (page, extra) => {
   return {
     type: 'ADMIN_PAGE_NAVIGATION',

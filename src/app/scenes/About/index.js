@@ -15,7 +15,7 @@ import Footer from '../components/Footer';
 import Navigator from '../components/Navigator';
 import Menu from '../components/Navigator/Menu';
 
-class About_Content extends Component {
+class About extends Component {
   constructor(props) {
     super(props);
 
@@ -70,45 +70,24 @@ class About_Content extends Component {
           </div>
         </Post>
         <Post style={{...this.styles.post}}>
+          <Text>Type  'toggle skills'  in the menu input above...</Text>
+        </Post>
+        <Post style={{...this.styles.post}}>
           <Heading title="Who I Am" />
           <Border style={{marginTop: 5}}/>
           <Text style={{margin: 10}}>
             I am a programmer, scentist, DIY'er, food enthusiast, adventurer, traveler, skater, and lover of music.
             I love to program just about anything. I also love to teach the concepts I learn in a fun and entertaining way.
           </Text>
-          <div className="content__image__container">
-            <SlideShow
-              images={[
-                {
-                  original: '/images/headshot.jpg'
-                },
-                {
-                  original: '/images/puertorico.jpg'
-                },
-                {
-                  original: '/images/skateboarding.jpg'
-                },
-              ]}
-            />
-          </div>
+          <Image
+            source={"/images/puertorico.jpg"}
+          />
           <Text style={{margin: 10}}>
-            I'm the type of guy that gets really excited about pictures like these:
+            I'm the type of guy whose office constantly looks like this...
           </Text>
-          <div className="content__image__container">
-            <SlideShow
-              images={[
-                {
-                  original: '/images/multiple_problems.jpg'
-                },
-                {
-                  original: '/images/messydesk.jpeg'
-                },
-                {
-                  original: '/images/single_problem.jpg'
-                },
-              ]}
-            />
-          </div>
+          <Image
+            source={"/images/messydesk.jpeg"}
+          />
         </Post>
         <Post style={{...this.styles.post}}>
           <Heading title="Experience" />
@@ -223,4 +202,4 @@ const mapStateToProps = (state) => {
   return { ...state };
 }
 
-export default connect(mapStateToProps)(About_Content);
+export default connect(mapStateToProps)(About);

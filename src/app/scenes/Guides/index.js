@@ -35,10 +35,12 @@ class Guides extends Component {
         padding: 5
       },
       searchInput: {
+        display: 'block',
         margin: 0,
+        padding: 0,
         paddingTop: 10,
         paddingBottom: 10,
-        width: '100%',
+        width: '100%'
       },
       container: {
         marginTop: 10,
@@ -174,7 +176,7 @@ class Guides extends Component {
             this.setState({searchValue});
           }}
           onKeyDown={(key) => {
-            if(key.which === 13) {
+            if(key.which === 13 && this.state.searchValue.length > 0) {
               history.push('/guides/s/' + this.state.searchValue);
               window.location.reload();
             }

@@ -4,8 +4,10 @@ import Authenticator from '../Authenticator';
 import AdminNavigator from './AdminNavigator';
 import { navigateAdmin } from '../../../actions/menu';
 import { refreshGuides, refreshTracking } from '../../../actions/guides';
+import { refreshTopics } from '../../../actions/topics';
 import Loading from '../../../components/Loading';
 import Guide_Window from './Guide_Window';
+import Topic_Window from './Topic_Window';
 import PieGraph from '../../../components/PieGraph';
 import LineGraph from '../../../components/LineGraph';
 
@@ -27,12 +29,13 @@ class Console extends Authenticator {
   }
 
   componentWillMount() {
-    this.refreshGuides();
+    this.refreshData();
   }
 
   createGuideTemplate() {
     return {
         searchTitle: "my-heading",
+        topics: [],
         head: {
           date: {
             time: "12/12/12",
@@ -72,7 +75,14 @@ class Console extends Authenticator {
     }
   }
 
-  refreshGuides() {
+  createTopicTemplate() {
+    return {
+      title: "My Topic",
+      guides: []
+    }
+  }
+
+  refreshData() {
     this.setState({loading: true});
     axios.post('/guides').then((res) => {
       if(res.data.status === 200) {
@@ -87,7 +97,8 @@ class Console extends Authenticator {
 
             tracking = tracking.map((g) => {
               return {
-                heading: g.head.heading,
+                searchTitle: g.searchTitle,
+                heading: g.heading,
                 links: g.activeLinks,
                 views: g.activeViews,
                 searches: g.activeSearches
@@ -96,7 +107,16 @@ class Console extends Authenticator {
 
             this.props.dispatch(refreshTracking(tracking));
 
-            this.setState({loading: false});
+            axios.post('/topics/get_topics').then((res) => {
+              if(res.data.status === 200) {
+
+                this.props.dispatch(refreshTopics(res.data.topics));
+                this.setState({loading: false});
+
+              } else {
+                Promise.reject('Server Error');
+              }
+            });
 
           } else {
             Promise.reject('Server Error');
@@ -110,6 +130,35 @@ class Console extends Authenticator {
     }).catch((err) => {
       console.log(err);
     });
+  }
+
+  renderTopics() {
+    const { topics } = this.props.topics;
+
+    let data =  topics.map((t, index) => {
+      return (
+        <Topic_Window
+          key={"topic-" + index}
+          title={t.title}
+          onClickEdit={() => this.props.dispatch(navigateAdmin('TOPIC_EDITOR', t))}
+        />
+      );
+    });
+
+    return (
+      <div style={{marginTop: 20}}>
+        <button
+          style={{marginLeft: 5}}
+           className="adminnavigator__button"
+           onClick={() => this.props.dispatch(navigateAdmin('TOPIC_EDITOR', this.createTopicTemplate()))}
+        >
+           New Topic<FAIcon name="new" style={{marginLeft: 5}}/>
+        </button>
+        <div style={{width: '100%', display: 'flex', flexWrap: 'wrap'}}>
+          {data}
+        </div>
+      </div>
+    );
   }
 
   renderGuides() {
@@ -197,11 +246,12 @@ class Console extends Authenticator {
   render() {
     if(!this.state.authenticated) return <div></div>
 
-    let jsx = <Loading scaler={2} />
+    let jsx = <Loading scaler={2} containerStyles={{display: 'flex', justifyContent: 'center', marginTop: '30vh'}} backColor={'rgba(0,0,0,0)'}/>
     if(!this.state.loading) {
       jsx = (
         <div>
           {this.renderGraphs()}
+          {this.renderTopics()}
           {this.renderGuides()}
         </div>
       );

@@ -35,7 +35,6 @@ class Guides extends Component {
         padding: 5
       },
       searchInput: {
-        display: 'block',
         margin: 0,
         padding: 0,
         paddingTop: 10,
@@ -159,9 +158,8 @@ class Guides extends Component {
       <div className="guide__container" style={{marginBottom: 20}}>
         <Heading title="Welcome to my guides section!"/>
           <Text>
-            This section is for guides I've created on various projects that I have built. I have found a lot of these
-            guides are not too often seen, or only partial bits and pieces are available. Well, I'm compiled a list
-            together for everyone to see!
+            Call it my blog, but I'd rather call them guides as the purpose of them is to
+            educate. I hope you learn something valuable!
           </Text>
         <Text style={{marginTop: 10}}>Try searching for a guide by typing 'search guides (heading / subheading / time)' into the menu input!</Text>
         <Text>Or just search for your guide below!!</Text>
@@ -178,7 +176,6 @@ class Guides extends Component {
           onKeyDown={(key) => {
             if(key.which === 13 && this.state.searchValue.length > 0) {
               history.push('/guides/s/' + this.state.searchValue);
-              window.location.reload();
             }
           }}
         />

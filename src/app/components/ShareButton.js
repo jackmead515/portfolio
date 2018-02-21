@@ -18,7 +18,7 @@ export default class ShareButton extends Component {
           className="guide__sharebutton__container"
           style={{...this.props.style}}
         >
-          <div cd onClick={() => this.setState({displayLink: false})}>
+          <div onClick={() => this.setState({displayLink: false})}>
             <FAIcon
               name="times"
               style={{marginRight: 5, fontSize: 14}}

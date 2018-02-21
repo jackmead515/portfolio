@@ -337,7 +337,7 @@ class Editor extends Authenticator {
   }
 
   renderEditor() {
-    const { head, content } = this.state;
+    const { head, content, topics } = this.state;
 
     return (
       <div className="editor__editor" style={{marginBottom: 100}}>
@@ -347,7 +347,6 @@ class Editor extends Authenticator {
             let { guide } = this.state;
             guide.head = head;
             guide.searchTitle = guide.head.heading.replace(/\s/g, '-').toLowerCase();
-            console.log(guide.searchTitle);
             this.setState({guide});
           }}
         />
@@ -540,31 +539,13 @@ class Editor extends Authenticator {
           <button
               style={{marginRight: 10}}
              className="adminnavigator__button"
-             onClick={() => {
-               axios.post('/guides/save', {guide: this.state.guide, token: localStorage.getItem('portfolio_auth_token')}).then((res) => {
-                 console.log(res.data);
-                 if(res.data.status === 200) {
-                   this.props.dispatch(navigateAdmin('CONSOLE'))
-                 }
-               }).catch((err) => {
-                 console.log(err);
-               });
-             }}
+             onClick={() => this.onSaveGuide()}
           >
              Save<FAIcon name="save" style={{marginLeft: 5}}/>
           </button>
           <button
              className="adminnavigator__button"
-             onClick={() => {
-               axios.post('/guides/delete', {guide: this.state.guide, token: localStorage.getItem('portfolio_auth_token')}).then((res) => {
-                 console.log(res.data);
-                 if(res.data.status === 200) {
-                   this.props.dispatch(navigateAdmin('CONSOLE'))
-                 }
-               }).catch((err) => {
-                 console.log(err);
-               });
-             }}
+             onClick={() => this.onDeleteGuide()}
           >
              Delete<FAIcon name="trash" style={{marginLeft: 5}}/>
           </button>
@@ -572,6 +553,42 @@ class Editor extends Authenticator {
         <Guide guide={this.state.guide} style={{backgroundColor: 'white', marginTop: 40}} doNotTrack />
       </div>
     )
+  }
+
+  onSaveGuide() {
+    const { guide } = this.state;
+    let token = localStorage.getItem('portfolio_auth_token')
+
+    this.setState({loading: true});
+
+    axios.post('/guides/save', {guide, token}).then((res) => {
+      if(res.data.status === 200) {
+          this.props.dispatch(navigateAdmin('CONSOLE'))
+      } else {
+        Promise.reject(res.data.message);
+      }
+    }).catch((err) => {
+      console.log(err);
+      this.setState({loading: false});
+    });
+  }
+
+  onDeleteGuide() {
+    const { guide } = this.state;
+    let token = localStorage.getItem('portfolio_auth_token')
+
+    this.setState({loading: true});
+
+    axios.post('/guides/delete', {guide, token}).then((res) => {
+      if(res.data.status === 200) {
+        this.props.dispatch(navigateAdmin('CONSOLE'))
+      } else {
+        Promise.reject(res.data.message);
+      }
+    }).catch((err) => {
+      console.log(err);
+      this.setState({loading: false});
+    });
   }
 
   renderContent() {
@@ -587,7 +604,7 @@ class Editor extends Authenticator {
   render() {
     if(!this.state.authenticated) return <div></div>
 
-    let jsx = <Loading scaler={2} />
+    let jsx = <Loading scaler={2} containerStyles={{display: 'flex', justifyContent: 'center', marginTop: '30vh'}} backColor={'rgba(0,0,0,0)'}/>
     if(!this.state.loading) {
       jsx = this.renderContent();
     }

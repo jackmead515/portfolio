@@ -11,7 +11,7 @@ export const popular = (data = [], length = 0) => {
   for(let i = 0; i < length; i++) {
     let t = data[i];
     let p = t.views.length + t.searches.length + t.links.length;
-    mostPopular.push({value: p, heading: t.heading});
+    mostPopular.push({value: p, ...t});
   }
 
   mostPopular = _.sortBy(mostPopular, (p) => -p.value);

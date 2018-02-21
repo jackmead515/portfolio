@@ -29,7 +29,8 @@ class GuideNavigator extends Component {
 
         tracking = tracking.map((g) => {
           return {
-            heading: g.head.heading,
+            heading: g.heading,
+            searchTitle: g.searchTitle,
             links: g.activeLinks,
             views: g.activeViews,
             searches: g.activeSearches
@@ -54,15 +55,14 @@ class GuideNavigator extends Component {
     if(guides.length <= 0) return null;
 
     let recentGuides = [];
-    for(let i = 0; i < 3; i++) {
+    for(let i = guides.length-1; i > guides.length-4; i--) {
       let g = guides[i];
       if(g) {
-        let searchTitle = g.head.heading.replace(/\s/g, '-').toLowerCase();
         recentGuides.push((
           <a
-            key={g.head.heading}
+            key={g.searchTitle + ' ' + i}
             className="guidenav__post"
-            href={"http://" + SERVERIP + "/guides/g/" + searchTitle}
+            href={"http://" + SERVERIP + "/guides/g/" + g.searchTitle}
           >
              {g.head.heading}
           </a>
@@ -88,12 +88,11 @@ class GuideNavigator extends Component {
     let mostPopular = popular(tracking, 3);
 
     let arr = mostPopular.map((mp) => {
-      let searchTitle = mp.heading.replace(/\s/g, '-').toLowerCase();
       return (
         <a
           key={mp.heading}
           className="guidenav__post"
-          href={"http://" + SERVERIP + "/guides/g/" + searchTitle}
+          href={"http://" + SERVERIP + "/guides/g/" + mp.searchTitle}
         >
            {mp.heading}
         </a>

@@ -36,11 +36,11 @@ export default class Loading extends Component {
         { backgroundColor: 'blue'},
         { backgroundColor: 'yellow'},
         { backgroundColor: 'green'},
-        { backgroundColor: 'white'},
-        { backgroundColor: 'white'},
-        { backgroundColor: 'white'},
-        { backgroundColor: 'white'},
-        { backgroundColor: 'white'},
+        { backgroundColor: props.backColor ? props.backColor : 'white'},
+        { backgroundColor: props.backColor ? props.backColor : 'white'},
+        { backgroundColor: props.backColor ? props.backColor : 'white'},
+        { backgroundColor: props.backColor ? props.backColor : 'white'},
+        { backgroundColor: props.backColor ? props.backColor : 'white'},
       ],
       opacity: {
         'opacity': 0

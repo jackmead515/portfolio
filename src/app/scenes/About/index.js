@@ -75,19 +75,17 @@ class About extends Component {
         <Post style={{...this.styles.post}}>
           <Heading title="Who I Am" />
           <Border style={{marginTop: 5}}/>
+          <Heading style={{marginTop: 20}} subtitle="Mission Statements" />
+          <Text style={{margin: 5, fontStyle: 'italic'}}>Why does it matter? Yours is the only one that matters.</Text>
           <Text style={{margin: 10}}>
             I am a programmer, scentist, DIY'er, food enthusiast, adventurer, traveler, skater, and lover of music.
             I love to program just about anything. I also love to teach the concepts I learn in a fun and entertaining way.
           </Text>
-          <Image
-            source={"/images/puertorico.jpg"}
-          />
+          <Image source={"/images/puertorico.jpg"} />
           <Text style={{margin: 10}}>
             I'm the type of guy whose office constantly looks like this...
           </Text>
-          <Image
-            source={"/images/messydesk.jpeg"}
-          />
+          <Image source={"/images/messydesk.jpeg"} />
         </Post>
         <Post style={{...this.styles.post}}>
           <Heading title="Experience" />

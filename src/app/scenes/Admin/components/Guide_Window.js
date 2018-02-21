@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FAIcon from 'react-fontawesome';
 
-export default class Text extends Component {
+export default class Guide_Window extends Component {
   constructor(props) {
     super(props);
 

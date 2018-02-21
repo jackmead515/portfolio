@@ -30,9 +30,7 @@ export default class Guide extends Component {
       if(c.style) {
         try {
           style = JSON.parse(c.style);
-        } catch(e) {
-          //must be a pure json string!
-        }
+        } catch(e) { /*must be a pure json string!*/ }
       }
 
       if(c.type === "text") {

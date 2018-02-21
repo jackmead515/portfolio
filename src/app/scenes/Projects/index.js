@@ -51,6 +51,17 @@ class Projects extends Component {
   renderProjects() {
     return (
       <div className="animated fadeIn" style={{...this.styles.container}}>
+
+        <Post style={{...this.styles.post}}>
+          <Heading title="This Website!!" />
+          <div style={{...this.styles.row}}>
+            <LinkRef link="https://github.com/jackmead515/portfolio" title="Github Repo" icon="external-link-square"/>
+            <LinkRef link="http://127.0.0.1:3000/guides/g/making-my-blog" title="Guide" icon="external-link-square"/>
+          </div>
+          <Image source="/images/admin_portfolio.png"/>
+          <Text text="I made this portfolio, blog, whatever to promote my ideas and have fun sharing them with you! That picture is of the admin side where I can create custom guides!" />
+        </Post>
+
         <Post style={{...this.styles.post}}>
           <Heading title="TV Remote Controlled Arduino Robots" />
           <div style={{...this.styles.row}}>
@@ -59,6 +70,7 @@ class Projects extends Component {
           <Image source="/images/tvremoterobots.jpeg"/>
           <Text text="Arudino based robots made from pizza boxes and recycled electronic parts, configured to be controlled via a tv remote controller." />
         </Post>
+
         <Post style={{...this.styles.post}}>
           <Heading title="Phenotyping Timelapse System" />
           <div style={{...this.styles.row}}>
@@ -68,6 +80,7 @@ class Projects extends Component {
           <Image source="/images/phenotypingsystem.jpg"/>
           <Text text="A Java-based time-lapse photography system built to monitor plant growth long term for genetics research." />
         </Post>
+
         <Post style={{...this.styles.post}}>
           <Heading title="AI Life" />
           <div style={{...this.styles.row}}>
@@ -76,6 +89,7 @@ class Projects extends Component {
           <Image source="/images/ai_life.JPG"/>
           <Text text="A Java-based game about exploration which integrates a Pytorch Deep-Q Neural Network over a Python Flask API to simulate wilderness survival." />
         </Post>
+
         <Post style={{...this.styles.post}}>
           <Heading title="Simple MMO" />
           <div style={{...this.styles.row}}>
@@ -85,11 +99,13 @@ class Projects extends Component {
           <Image source="/images/multiplayer_game.JPG"/>
           <Text>A 2D shooter game with a real-time chat interface, website with user accounts, and a full-fledged multiplayer ability.</Text>
         </Post>
+
         <Post style={{...this.styles.post}}>
           <Heading title="Chat App" />
           <LinkRef link="https://github.com/jackmead515/socketapp" title="Github Repo" icon="external-link-square"/>
           <Text>A simple socket.io chat app. Features customizable chat rooms and ability to send location via Google API.</Text>
         </Post>
+
         <Post style={{...this.styles.post}}>
           <Heading title="Weather App" />
           <div style={{...this.styles.row}}>
@@ -98,6 +114,7 @@ class Projects extends Component {
           <Image source="/images/simpleweather.jpeg"/>
           <Text>A simple weather app built with React-Native. Displays full-day and 7-day forecasts. Added ability of saving favorite locations.</Text>
         </Post>
+
         <Post style={{...this.styles.post, marginBottom: 10}}>
           <Heading title="Loading Animation!" />
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', paddingTop: 20, paddingBottom: 20}}>
@@ -109,6 +126,7 @@ class Projects extends Component {
           </div>
           <Text>I thought I'd try something fun for this portfolio so I created a loading animation. Wohoo!</Text>
         </Post>
+
         <Post style={{...this.styles.post}}>
           <Heading title="Wander Algorithm" />
           <div style={{...this.styles.row}}>
@@ -119,6 +137,7 @@ class Projects extends Component {
           </div>
           <Text>I really like looking into the algorithms of games and how the AI's behave. This little bee uses SVG with a really simple wandering algorithm to move around :)</Text>
         </Post>
+
       </div>
     )
   }

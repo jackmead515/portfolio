@@ -5,6 +5,7 @@ import { navigateAdmin } from '../../actions/menu';
 import Login from './components/Login';
 import Console from './components/Console';
 import Editor from './components/Editor';
+import TopicEditor from './components/TopicEditor';
 import Graphs from './components/Graphs';
 
 class Admin extends Component {
@@ -16,6 +17,7 @@ class Admin extends Component {
       case 'LOGIN': return <Login />
       case 'CONSOLE': return <Console />
       case 'EDITOR': return <Editor />
+      case 'TOPIC_EDITOR': return <TopicEditor />
       case 'GRAPHS': return <Graphs />
       default: return <Login />
     }

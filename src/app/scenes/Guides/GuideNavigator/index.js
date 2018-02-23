@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { SERVERIP } from '../../../../index.js';
-import { refreshTracking } from '../../../actions/guides';
+import { refreshTracking } from '../../../actions/tracking';
 
 import DateNavigator from './DateNavigator';
 import Loading from '../../../components/Loading';
@@ -12,42 +12,6 @@ import { popular } from '../../../util/';
 import _ from 'lodash';
 
 class GuideNavigator extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true,
-      tracking: []
-    }
-  }
-
-  componentWillMount () {
-    axios.post('/tracking/get_tracking').then((res) => {
-      if(res.data.status === 200) {
-
-        let { tracking } = res.data;
-
-        tracking = tracking.map((g) => {
-          return {
-            heading: g.heading,
-            searchTitle: g.searchTitle,
-            links: g.activeLinks,
-            views: g.activeViews,
-            searches: g.activeSearches
-          };
-        });
-
-        this.props.dispatch(refreshTracking(tracking));
-
-        this.setState({loading: false, tracking});
-
-      } else {
-        Promise.reject('Server Error');
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
 
   renderRecent() {
     const guides = this.props.guides.guides.data;
@@ -55,7 +19,7 @@ class GuideNavigator extends Component {
     if(guides.length <= 0) return null;
 
     let recentGuides = [];
-    for(let i = guides.length-1; i > guides.length-4; i--) {
+    for(let i = 0; i < 3; i++) {
       let g = guides[i];
       if(g) {
         recentGuides.push((
@@ -81,7 +45,7 @@ class GuideNavigator extends Component {
   }
 
   renderPopular() {
-    const { tracking } = this.state;
+    const tracking = this.props.tracking.tracking.data;
 
     if(tracking.length <= 0) return null;
 
@@ -100,9 +64,40 @@ class GuideNavigator extends Component {
     });
 
     return (
-      <div key="popular-guides">
-        <div className="guidenav__heading" style={{marginTop: 15}}>Most Popular</div>
+      <div key="popular-guides" style={{marginTop: 15}}>
+        <div className="guidenav__heading">Most Popular</div>
         {arr}
+      </div>
+    )
+  }
+
+  renderTopics() {
+    const topics = this.props.topics.topics.data;
+
+    if(topics.length <= 0) return null;
+
+    let compTopics = [];
+    for(let i = 0; i < topics.length; i++) {
+      let t = topics[i];
+      if(t) {
+        compTopics.push((
+          <a
+            key={t.title + ' ' + i}
+            className="guidenav__post"
+            href={"http://" + SERVERIP + "/guides/t/" + t.title}
+          >
+             {t.title}
+          </a>
+        ));
+      } else {
+        break;
+      }
+    }
+
+    return (
+      <div key="topics-list" style={{marginTop: 15}}>
+        <div className="guidenav__heading">Topics</div>
+        {compTopics}
       </div>
     )
   }
@@ -130,6 +125,7 @@ class GuideNavigator extends Component {
       <div className="guidenav__mobile__container" style={{...style}}>
         {this.renderRecent()}
         {this.renderPopular()}
+        {this.renderTopics()}
         <DateNavigator key="date-navigator" guides={this.props.guides.guides.data}/>
       </div>
     );
@@ -142,15 +138,16 @@ class GuideNavigator extends Component {
       <div className="guidenav__container" style={{...style}}>
         {this.renderRecent()}
         {this.renderPopular()}
+        {this.renderTopics()}
         <DateNavigator key="date-navigator" guides={this.props.guides.guides.data}/>
       </div>
     );
   }
 
   render() {
-    const { mobile } = this.props;
+    const { mobile, loading } = this.props;
 
-    if(this.state.loading) return this.renderLoading();
+    if(loading) return this.renderLoading();
 
     return mobile ? this.renderMobile() : this.renderFull();
 

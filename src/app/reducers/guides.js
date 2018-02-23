@@ -6,10 +6,6 @@ const initialState = {
     dateRange: 0,
     lastSynced: undefined
   },
-  tracking: {
-    data: [],
-    lastSynced: undefined
-  }
 };
 
 export default (state = initialState, action = {}) => {
@@ -22,14 +18,6 @@ export default (state = initialState, action = {}) => {
           lastSynced: new Date(),
           dateRange: dateRange(action.data)
         }
-      }
-    case 'REFRESH_TRACKING':
-      return {
-          ...state,
-          tracking: {
-            data: action.data,
-            lastSynced: new Date()
-          }
       }
     default:
       return state;

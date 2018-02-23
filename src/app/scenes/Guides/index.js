@@ -5,7 +5,10 @@ import moment from 'moment';
 
 import { history } from '../../../index.js';
 import { navigate } from '../../actions/menu';
-import { refreshGuides, refreshTracking } from '../../actions/guides';
+import { refreshGuides } from '../../actions/guides';
+import { refreshTracking } from '../../actions/tracking';
+import { refreshTopics } from '../../actions/topics';
+import Fetch from '../../util/Fetch.js';
 
 import Loading from '../../components/Loading';
 
@@ -70,47 +73,76 @@ class Guides extends Component {
     const { match } = this.props;
     this.updateDimensions();
 
-    console.log(match);
-
-    if(match.url.startsWith('/guides/g/') && match.params.guide) {
-      axios.post('/guides/guide', {searchTitle: match.params.guide}).then((res) => {
-        if(res.data.status === 200) {
-          this.setState({loading: false, guides: [res.data.guide], search: true});
-        } else {
-          this.setState({loading: false});
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
-    } else if(match.url.startsWith('/guides/s/') && match.params.search) {
-      axios.post('/guides/search', {heading: match.params.search, subHeading: match.params.search}).then((res) => {
-        if(res.data.status === 200) {
-          this.setState({loading: false, guides: res.data.guides, search: true});
-        } else {
-          this.setState({loading: false});
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
-    } else if(match.url.startsWith('/guides/t/') && match.params.search) {
-      axios.post('/guides/search', {heading: match.params.guide, subHeading: match.params.guide}).then((res) => {
-        if(res.data.status === 200) {
-          this.setState({loading: false, guides: res.data.guides, search: true});
-        } else {
-          this.setState({loading: false});
-        }
-      }).catch((err) => {
-        console.log(err);
-      });
-    } else {
-      axios.post('/guides').then((res) => {
-        this.props.dispatch(refreshGuides(res.data.guides));
+    this.refreshData().then(() => {
+      if(match.url.startsWith('/guides/g/') && match.params.guide) {
+        axios.post('/guides/guide', {searchTitle: match.params.guide}).then((res) => {
+          if(res.data.status === 200) {
+            this.setState({loading: false, guides: [res.data.guide], search: true});
+          } else {
+            this.setState({loading: false});
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      } else if(match.url.startsWith('/guides/s/') && match.params.search) {
+        axios.post('/guides/search', {heading: match.params.search, subHeading: match.params.search}).then((res) => {
+          if(res.data.status === 200) {
+            this.setState({loading: false, guides: res.data.guides, search: true});
+          } else {
+            this.setState({loading: false});
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      } else if(match.url.startsWith('/guides/t/') && match.params.topic) {
+        axios.post('/guides/topic', {title: match.params.topic}).then((res) => {
+          if(res.data.status === 200) {
+            this.setState({loading: false, guides: res.data.guides, search: true});
+          } else {
+            this.setState({loading: false});
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      } else {
         this.setState({loading: false});
+      }
+    });
+  }
 
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
+  refreshData() {
+    return new Promise((resolve, reject) => {
+      let refresh = false;
+      if(this.props.tracking.tracking.lastSynced &&
+        this.props.topics.topics.lastSynced &&
+        this.props.guides.guides.lastSynced) {
+
+          let trls = new Date(this.props.tracking.tracking.lastSynced).getTime()/1000
+          let tls = new Date(this.props.topics.topics.lastSynced).getTime()/1000
+          let gls = new Date(this.props.guides.guides.lastSynced).getTime()/1000
+
+          if(moment().subtract(trls, 'seconds').unix() > 86400 ||
+             moment().subtract(tls, 'seconds').unix() > 86400 ||
+             moment().subtract(gls, 'seconds').unix() > 86400) {
+            refresh = true;
+          }
+
+      } else {
+        refresh = true;
+      }
+
+
+      if(refresh) {
+        Fetch().then((data) => {
+          this.props.dispatch(refreshGuides(data.guides));
+          this.props.dispatch(refreshTopics(data.topics));
+          this.props.dispatch(refreshTracking(data.tracking));
+          resolve();
+        });
+      }
+
+      resolve();
+    });
   }
 
   updateDimensions() {
@@ -204,7 +236,7 @@ class Guides extends Component {
         <div style={{...this.styles.container}}>
           {this.renderHeading()}
           {jsx}
-          <GuideNavigator mobile />
+          <GuideNavigator mobile loading={this.state.loading}/>
         </div>
       </div>
     )
@@ -228,7 +260,7 @@ class Guides extends Component {
 
     return (
       <div className="animated fadeIn" style={{display: 'flex', paddingTop, marginBottom}}>
-        <GuideNavigator style={{paddingTop: 25}} />
+        <GuideNavigator style={{paddingTop: 25}} loading={this.state.loading}/>
         <div style={{...this.styles.container}}>
           {this.renderHeading()}
           {jsx}

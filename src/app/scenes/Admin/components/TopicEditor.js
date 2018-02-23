@@ -17,12 +17,25 @@ class TopicEditor extends Authenticator {
 
     let topic = props.menu.admin.extra;
 
+    let guides = props.guides.guides.data.filter((g) => {
+      return !topic.guides.find((tg) => tg.guideId === g._id);
+    });
+
     this.state = {
       loading: false,
       topic,
       title: topic.title,
       guidesInTopic: topic.guides,
-      guides: props.guides.guides.data
+      guides
+    }
+
+    this.styles = {
+      guideColumn: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+      }
     }
   }
 
@@ -111,11 +124,11 @@ class TopicEditor extends Authenticator {
               this.setState({title});
             }}
           />
-        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-            <div>
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div style={{...this.styles.guideColumn, borderRight: '3px solid #e8e8e8'}}>
               {this.renderGuides()}
             </div>
-            <div>
+            <div style={{...this.styles.guideColumn}}>
               {this.renderGuidesInTopic()}
             </div>
           </div>

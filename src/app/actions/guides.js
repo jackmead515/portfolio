@@ -4,10 +4,3 @@ export const refreshGuides = (data) => {
     data
   }
 }
-
-export const refreshTracking = (data) => {
-  return {
-    type: 'REFRESH_TRACKING',
-    data
-  }
-}

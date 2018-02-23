@@ -10,8 +10,8 @@ class Menu extends Component {
     const { opened, theme } = this.props.menu;
     const { backgroundColor, iconColor } = theme;
 
-    let itemClassNames = "navigator__menu__item animatedFast";
-    let wrapperClassNames = "navigator__menu animatedFast";
+    let itemClassNames = "navigator__menu__item animatedSuperFast";
+    let wrapperClassNames = "navigator__menu animatedSuperFast";
     itemClassNames = opened ? itemClassNames.concat(' bounceInLeft') : itemClassNames.concat(' bounceOutLeft');
     wrapperClassNames = opened ? wrapperClassNames.concat(' fadeIn') : wrapperClassNames.concat(' fadeOut');
 

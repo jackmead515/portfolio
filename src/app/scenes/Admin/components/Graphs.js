@@ -64,7 +64,7 @@ class Graphs extends Authenticator {
   }
 
   componentWillMount() {
-    const { data } = this.props.guides.tracking;
+    const { data } = this.props.tracking.tracking;
     const { guide } = this.state;
 
     let tracking = null;

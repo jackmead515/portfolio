@@ -1,5 +1,8 @@
 const initialState = {
-  topics: []
+  topics: {
+    data: [],
+    lastSynced: null
+  }
 };
 
 export default (state = initialState, action = {}) => {
@@ -7,7 +10,10 @@ export default (state = initialState, action = {}) => {
     case 'REFRESH_TOPICS':
       return {
         ...state,
-        topics: action.data
+        topics: {
+          data: action.data,
+          lastSynced: new Date()
+        }
       }
     default:
       return state;

@@ -70,11 +70,6 @@ class Help extends Component {
                   <Text>settings - navigates to the settings page.</Text>
                   <Text>help - navigates to this page!</Text>
                 </div>
-              <Text style={{fontWeight: 'bold'}}>"extra"</Text>
-                <div style={{padding: 10}}>
-                  <Text>"navigate guides (number)"</Text>
-                  <Text>A whole number in the range from 0 to total length of all guides in store.</Text>
-                </div>
             </Post>
             <Border />
             <Post>
@@ -93,10 +88,6 @@ class Help extends Component {
                   <Text>linkedin - navigates to my linkedin page.</Text>
                   <Text>quora - navigates to my quora page.</Text>
                   <Text>youtube - navigates my youtube channel.</Text>
-                </div>
-              <Text style={{fontWeight: 'bold'}}>"extra"</Text>
-                <div style={{padding: 10}}>
-                  <Text>Nothing... YET! :)</Text>
                 </div>
             </Post>
             <Border />

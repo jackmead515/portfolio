@@ -8,7 +8,7 @@ export const popular = (data = [], length = 0) => {
   }
 
   let mostPopular = [];
-  for(let i = 0; i < length; i++) {
+  for(let i = 0; i < data.length; i++) {
     let t = data[i];
     let p = t.views.length + t.searches.length + t.links.length;
     mostPopular.push({value: p, ...t});
@@ -16,7 +16,7 @@ export const popular = (data = [], length = 0) => {
 
   mostPopular = _.sortBy(mostPopular, (p) => -p.value);
 
-  return mostPopular;
+  return mostPopular.slice(0, length);
 };
 
 export const dateRange = (data) => {

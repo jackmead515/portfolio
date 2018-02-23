@@ -566,6 +566,7 @@ class Editor extends Authenticator {
           this.props.dispatch(navigateAdmin('CONSOLE'))
       } else {
         Promise.reject(res.data.message);
+        this.setState({loading: false});
       }
     }).catch((err) => {
       console.log(err);
@@ -584,6 +585,7 @@ class Editor extends Authenticator {
         this.props.dispatch(navigateAdmin('CONSOLE'))
       } else {
         Promise.reject(res.data.message);
+        this.setState({loading: false});
       }
     }).catch((err) => {
       console.log(err);

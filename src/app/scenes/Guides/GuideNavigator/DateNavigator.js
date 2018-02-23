@@ -6,9 +6,6 @@ import moment from 'moment';
 import _ from 'lodash';
 
 export default class DateNavigator extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   renderYears() {
     const { guides } = this.props;

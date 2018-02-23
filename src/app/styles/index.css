@@ -401,8 +401,12 @@
 
 .console__container {
   background: url("/images/login_background.jpg");
-  width: 100%;
+  width: 100vw;
   height: 100vh;
+  min-width: 100vw;
+  max-width: 100vw;
+  min-height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -444,8 +448,8 @@
   opacity: 0.5; }
 
 .console__wrapper {
-  height: 100vh;
   width: 100vw;
+  height: 100vh;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

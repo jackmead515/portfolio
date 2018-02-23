@@ -21,11 +21,11 @@ import Plugin from './app/scenes/Plugin';
 import Projects from './app/scenes/Projects';
 
 export const SERVERIP = '127.0.0.1:3000';
-export const APIIP = '127.0.0.1:5000';
+export const NODEIP = '127.0.0.1:5000';
 export const history = createBrowserHistory();
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
-axios.defaults.baseURL = 'http://' + APIIP + '/api/v1';
+axios.defaults.baseURL = 'http://' + NODEIP + '/api/v1';
 
 ReactDOM.render((
   <PersistGate persistor={persistor}>
@@ -37,7 +37,7 @@ ReactDOM.render((
 
           <Route exact path="/guides" component={Guides} />
           <Route exact path="/guides/g/:guide" component={Guides} />
-          <Route exact path="/guides/t/:time" component={Guides} />
+          <Route exact path="/guides/t/:topic" component={Guides} />
           <Route exact path="/guides/s/:search" component={Guides} />
 
           <Route exact path="/about" component={About} />

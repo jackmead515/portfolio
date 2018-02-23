@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import Authenticator from '../Authenticator';
 import AdminNavigator from './AdminNavigator';
 import { navigateAdmin } from '../../../actions/menu';
-import { refreshGuides, refreshTracking } from '../../../actions/guides';
+import { refreshGuides } from '../../../actions/guides';
+import { refreshTracking } from '../../../actions/tracking';
 import { refreshTopics } from '../../../actions/topics';
+import Fetch from '../../../util/Fetch.js';
 import Loading from '../../../components/Loading';
 import Guide_Window from './Guide_Window';
 import Topic_Window from './Topic_Window';
@@ -84,56 +86,16 @@ class Console extends Authenticator {
 
   refreshData() {
     this.setState({loading: true});
-    axios.post('/guides').then((res) => {
-      if(res.data.status === 200) {
-
-        this.props.dispatch(refreshGuides(res.data.guides));
-        this.setState({guides: res.data.guides});
-
-        axios.post('/tracking/get_tracking').then((res) => {
-          if(res.data.status === 200) {
-
-            let { tracking } = res.data;
-
-            tracking = tracking.map((g) => {
-              return {
-                searchTitle: g.searchTitle,
-                heading: g.heading,
-                links: g.activeLinks,
-                views: g.activeViews,
-                searches: g.activeSearches
-              };
-            });
-
-            this.props.dispatch(refreshTracking(tracking));
-
-            axios.post('/topics/get_topics').then((res) => {
-              if(res.data.status === 200) {
-
-                this.props.dispatch(refreshTopics(res.data.topics));
-                this.setState({loading: false});
-
-              } else {
-                Promise.reject('Server Error');
-              }
-            });
-
-          } else {
-            Promise.reject('Server Error');
-          }
-        }).catch((err) => {
-          Promise.reject('Server Error');
-        });
-      } else {
-        Promise.reject('Server Error');
-      }
-    }).catch((err) => {
-      console.log(err);
+    Fetch().then((data) => {
+      this.props.dispatch(refreshGuides(data.guides));
+      this.props.dispatch(refreshTopics(data.topics));
+      this.props.dispatch(refreshTracking(data.tracking));
+      this.setState({loading: false, tracking: data.tracking, guides: data.guides});
     });
   }
 
   renderTopics() {
-    const { topics } = this.props.topics;
+    const topics = this.props.topics.topics.data;
 
     let data =  topics.map((t, index) => {
       return (
@@ -193,7 +155,7 @@ class Console extends Authenticator {
   }
 
   renderGraphs() {
-    let { data } = this.props.guides.tracking;
+    let { data } = this.props.tracking.tracking;
 
     return (
           <div style={{

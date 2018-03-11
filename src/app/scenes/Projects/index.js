@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { navigate } from '../../actions/menu';
+import { NODEIP } from '../../../index.js';
 
 import Loading from '../../components/Loading';
 import Bees from '../../components/Extra/Bees';
@@ -58,7 +59,7 @@ class Projects extends Component {
             <LinkRef link="https://github.com/jackmead515/portfolio" title="Github Repo" icon="external-link-square"/>
             <LinkRef link="http://127.0.0.1:3000/guides/g/making-my-blog" title="Guide" icon="external-link-square"/>
           </div>
-          <Image source="/images/admin_portfolio.png"/>
+          <Image source={"http://" + NODEIP + "/images/admin_portfolio.png"}/>
           <Text text="I made this portfolio, blog, whatever to promote my ideas and have fun sharing them with you! That picture is of the admin side where I can create custom guides!" />
         </Post>
 
@@ -67,7 +68,7 @@ class Projects extends Component {
           <div style={{...this.styles.row}}>
             <LinkRef link="https://github.com/jackmead515/ir_robot" title="Github Repo" icon="external-link-square"/>
           </div>
-          <Image source="/images/tvremoterobots.jpeg"/>
+          <Image source={"http://" + NODEIP + "/images/tvremoterobots.jpeg"}/>
           <Text text="Arudino based robots made from pizza boxes and recycled electronic parts, configured to be controlled via a tv remote controller." />
         </Post>
 
@@ -77,7 +78,7 @@ class Projects extends Component {
             <LinkRef link="https://github.com/jackmead515/ai_life" title="Github Repo" icon="external-link-square"/>
             <LinkRef link="https://github.com/jackmead515/ai_life" title="Research Paper" icon="external-link-square"/>
           </div>
-          <Image source="/images/phenotypingsystem.jpg"/>
+          <Image source={"http://" + NODEIP + "/images/phenotypingsystem.jpg"}/>
           <Text text="A Java-based time-lapse photography system built to monitor plant growth long term for genetics research." />
         </Post>
 
@@ -86,7 +87,7 @@ class Projects extends Component {
           <div style={{...this.styles.row}}>
             <LinkRef link="https://github.com/jackmead515/ai_life" title="Github Repo" icon="external-link-square"/>
           </div>
-          <Image source="/images/ai_life.JPG"/>
+          <Image source={"http://" + NODEIP + "/images/ai_life.JPG"}/>
           <Text text="A Java-based game about exploration which integrates a Pytorch Deep-Q Neural Network over a Python Flask API to simulate wilderness survival." />
         </Post>
 
@@ -96,7 +97,7 @@ class Projects extends Component {
             <LinkRef link="https://github.com/jackmead515/multiplayerGame" title="Github Repo" icon="external-link-square"/>
             <LinkRef link="/images/ai_life.JPG" title="Download It!"/>
           </div>
-          <Image source="/images/multiplayer_game.JPG"/>
+          <Image source={"http://" + NODEIP + "/images/multiplayer_game.JPG"}/>
           <Text>A 2D shooter game with a real-time chat interface, website with user accounts, and a full-fledged multiplayer ability.</Text>
         </Post>
 
@@ -111,7 +112,7 @@ class Projects extends Component {
           <div style={{...this.styles.row}}>
             <LinkRef link="https://github.com/jackmead515/simpleweather" title="Github Repo" icon="external-link-square"/>
           </div>
-          <Image source="/images/simpleweather.jpeg"/>
+          <Image source={"http://" + NODEIP + "/images/simpleweather.jpeg"}/>
           <Text>A simple weather app built with React-Native. Displays full-day and 7-day forecasts. Added ability of saving favorite locations.</Text>
         </Post>
 

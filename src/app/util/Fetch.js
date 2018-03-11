@@ -43,13 +43,11 @@ export const topics = () => {
   });
 }
 
-export const guides = () => {
+export const guides = (start, end) => {
   return new Promise((resolve, reject) => {
-    axios.post('/guides').then((res) => {
+    axios.post('/guides', {start, end}).then((res) => {
       if(res.data.status === 200) {
-
         resolve(res.data.guides);
-
       } else {
         resolve([])
       }
@@ -59,9 +57,9 @@ export const guides = () => {
   });
 }
 
-const all = () => {
+const all = (start, end) => {
   return new Promise((resolve, reject) => {
-    guides().then((guides) => {
+    guides(start, end).then((guides) => {
       tracking().then((tracking) => {
         topics().then((topics) => {
           resolve({guides, tracking, topics})

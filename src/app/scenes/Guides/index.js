@@ -54,10 +54,11 @@ class Guides extends Component {
     this.state = {
       loading: true,
       guides: [],
-      search: false,
       searchValue: '',
       height: 0,
-      width: 0
+      width: 0,
+      startIndex: 0,
+      endIndex: 10
     }
   }
 
@@ -71,13 +72,14 @@ class Guides extends Component {
 
   componentWillMount() {
     const { match } = this.props;
+    const { startIndex, endIndex } = this.state;
     this.updateDimensions();
 
     this.refreshData().then(() => {
       if(match.url.startsWith('/guides/g/') && match.params.guide) {
         axios.post('/guides/guide', {searchTitle: match.params.guide}).then((res) => {
           if(res.data.status === 200) {
-            this.setState({loading: false, guides: [res.data.guide], search: true});
+            this.setState({loading: false, guides: [res.data.guide]});
           } else {
             this.setState({loading: false});
           }
@@ -85,9 +87,9 @@ class Guides extends Component {
           console.log(err);
         });
       } else if(match.url.startsWith('/guides/s/') && match.params.search) {
-        axios.post('/guides/search', {heading: match.params.search, subHeading: match.params.search}).then((res) => {
+        axios.post('/guides/search', {heading: match.params.search, subHeading: match.params.search, start: startIndex, end: endIndex}).then((res) => {
           if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides, search: true});
+            this.setState({loading: false, guides: res.data.guides});
           } else {
             this.setState({loading: false});
           }
@@ -95,9 +97,19 @@ class Guides extends Component {
           console.log(err);
         });
       } else if(match.url.startsWith('/guides/t/') && match.params.topic) {
-        axios.post('/guides/topic', {title: match.params.topic}).then((res) => {
+        axios.post('/guides/topic', {title: match.params.topic, start: startIndex, end: endIndex}).then((res) => {
           if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides, search: true});
+            this.setState({loading: false, guides: res.data.guides});
+          } else {
+            this.setState({loading: false});
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+      } else if(match.url.startsWith('/guides')) {
+        axios.post('/guides', {start: startIndex, end: endIndex}).then((res) => {
+          if(res.data.status === 200) {
+            this.setState({loading: false, guides: res.data.guides});
           } else {
             this.setState({loading: false});
           }
@@ -114,16 +126,13 @@ class Guides extends Component {
     return new Promise((resolve, reject) => {
       let refresh = false;
       if(this.props.tracking.tracking.lastSynced &&
-        this.props.topics.topics.lastSynced &&
-        this.props.guides.guides.lastSynced) {
+        this.props.topics.topics.lastSynced) {
 
           let trls = new Date(this.props.tracking.tracking.lastSynced).getTime()/1000
-          let tls = new Date(this.props.topics.topics.lastSynced).getTime()/1000
-          let gls = new Date(this.props.guides.guides.lastSynced).getTime()/1000
+          let tls = new Date(this.props.topics.topics.lastSynced).getTime()/1000;
 
           if(moment().subtract(trls, 'seconds').unix() > 86400 ||
-             moment().subtract(tls, 'seconds').unix() > 86400 ||
-             moment().subtract(gls, 'seconds').unix() > 86400) {
+             moment().subtract(tls, 'seconds').unix() > 86400) {
             refresh = true;
           }
 
@@ -133,11 +142,11 @@ class Guides extends Component {
 
 
       if(refresh) {
-        Fetch().then((data) => {
-          this.props.dispatch(refreshGuides(data.guides));
-          this.props.dispatch(refreshTopics(data.topics));
-          this.props.dispatch(refreshTracking(data.tracking));
-          resolve();
+        Fetch.tracking().then((tracking) => {
+          Fetch.topics().then((topics) => {
+            this.props.dispatch(refreshTopics(topics));
+            this.props.dispatch(refreshTracking(tracking));
+          });
         });
       }
 
@@ -157,7 +166,7 @@ class Guides extends Component {
     this.setState({height, width});
   }
 
-  renderSearchedGuide() {
+  renderGuides() {
     const { guides } = this.state;
 
     if(guides && guides.length > 0 && guides[0]) {
@@ -174,15 +183,6 @@ class Guides extends Component {
         </div>
       )
     }
-  }
-
-  renderGuides() {
-    const { guides } = this.props;
-
-    return guides.guides.data.map((post, index) => {
-      let backgroundColor = index%2 === 0 ? '#f2f2f2' : 'white';
-      return <Guide guide={post} key={index} style={{backgroundColor, marginTop: 5, marginBottom: 5}}/>
-    });
   }
 
   renderHeading() {
@@ -216,13 +216,11 @@ class Guides extends Component {
   }
 
   renderMobile() {
-    const { loading, search } = this.state;
+    const { loading } = this.state;
     let jsx = null;
 
     if(this.state.loading) {
       jsx = <Loading containerStyles={{display: 'flex', justifyContent: 'center', marginTop: '30vh'}} scaler={2}/>
-    } else if(search){
-      jsx = this.renderSearchedGuide();
     } else {
       jsx = this.renderGuides();
     }
@@ -248,8 +246,6 @@ class Guides extends Component {
 
     if(this.state.loading) {
       jsx = <Loading containerStyles={{display: 'flex', justifyContent: 'center', marginTop: '30vh'}} scaler={2}/>
-    } else if(search){
-      jsx = this.renderSearchedGuide();
     } else {
       jsx = this.renderGuides();
     }

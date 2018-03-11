@@ -87,10 +87,19 @@ class Console extends Authenticator {
   refreshData() {
     this.setState({loading: true});
     Fetch().then((data) => {
-      this.props.dispatch(refreshGuides(data.guides));
       this.props.dispatch(refreshTopics(data.topics));
       this.props.dispatch(refreshTracking(data.tracking));
-      this.setState({loading: false, tracking: data.tracking, guides: data.guides});
+      axios.post('/guides/all', {token: localStorage.getItem('portfolio_auth_token')}).then((res) => {
+        let guides = [];
+        if(res.data.status === 200) {
+          this.props.dispatch(refreshGuides(res.data.guides));
+          guides = res.data.guides;
+        } else {
+          this.props.dispatch(refreshGuides([]));
+        }
+
+        this.setState({loading: false, tracking: data.tracking, guides});
+      });
     });
   }
 
@@ -211,7 +220,7 @@ class Console extends Authenticator {
     let jsx = <Loading scaler={2} containerStyles={{display: 'flex', justifyContent: 'center', marginTop: '30vh'}} backColor={'rgba(0,0,0,0)'}/>
     if(!this.state.loading) {
       jsx = (
-        <div>
+        <div style={{paddingLeft: 20, paddingRight: 20}}>
           {this.renderGraphs()}
           {this.renderTopics()}
           {this.renderGuides()}
@@ -228,7 +237,7 @@ class Console extends Authenticator {
             this.filterGuides(key, value);
           }}
         />
-        <div className="console__wrapper animatedFast slideInLeft">
+      <div className="console__wrapper animatedFast slideInLeft" style={{justifyContent: 'center'}}>
           {jsx}
         </div>
       </div>

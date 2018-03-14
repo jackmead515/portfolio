@@ -136,6 +136,13 @@ class GuideNavigator extends Component {
 
     return (
       <div className="guidenav__container" style={{...style}}>
+        <div className="guidenav__about__container">
+          <img src="http://127.0.0.1:5000/images/profileimage.jpg"  className="guidenav__about__image" />
+          <p>
+            Hey what's up gals and guys? My name is Jack. Browse to your hearts content! Subscribe and
+            support me if you like what your looking at!
+          </p>
+        </div>
         {this.renderRecent()}
         {this.renderPopular()}
         {this.renderTopics()}

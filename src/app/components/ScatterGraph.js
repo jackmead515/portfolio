@@ -37,6 +37,14 @@ export default class ScatterGraph extends Component {
     const { divId } = this.props;
     let { data, element } = this.props;
 
+    if(!data) {
+       d3.select('#' + divId).
+       append('p').
+       attr('style', 'display: flex; justify-content: center; align-items: center').
+       text('No data available');
+       return;
+    }
+
     data = data[element].map((d, i) => {
       return {y: i+1, x: moment(d.time).valueOf()}
     });

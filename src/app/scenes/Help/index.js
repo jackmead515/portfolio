@@ -19,7 +19,6 @@ class Help extends Component {
     this.styles = {
       container: {
         maxWidth: 900,
-        margin: 'auto',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
@@ -47,11 +46,9 @@ class Help extends Component {
       <div className="animated fadeIn" style={{...this.styles.container, paddingTop, marginBottom}}>
         <div style={{...this.styles.post, padding: 5}}>
           <Heading title="So you wanna master the command line..."/>
+          <Text style={{marginTop: 20}} text="The command line syntax is as such: "/>
+          <Text style={{color: 'blue', fontWeight: 'bold', marginTop: 10}} text="<command> <direction> <extra>"/>
 
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', marginBottom: 20}}>
-              <Text style={{marginTop: 20}} text="The command line syntax is as such: "/>
-              <Text style={{color: 'blue', fontWeight: 'bold', marginTop: 10}} text="<command> <direction> <extra>"/>
-            </div>
             <Border />
             <Post>
               <Heading style={{marginBottom: 10, marginTop: 10}} subHeadingStyle={{fontSize: 30}} subtitle="navigate" />
@@ -115,10 +112,12 @@ class Help extends Component {
   }
 
   render() {
+    const { opened } = this.props.menu;
+    
     return (
       <div className="dashboard__container">
         <Navigator />
-        <Menu />
+        {opened ? <Menu/> : null}
         {this.renderHelp()}
         <Footer />
       </div>

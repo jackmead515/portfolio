@@ -4,7 +4,7 @@ import FAIcon from 'react-fontawesome';
 
 export default class EditorInput extends Component {
   render() {
-    const { value, onChange, placeholder, style, title } = this.props;
+    const { value, onChange, placeholder, style, title, type } = this.props;
 
     return (
       <div className="editor__content__inputcontainer">
@@ -22,7 +22,7 @@ export default class EditorInput extends Component {
         </div>
         <input
           placeholder={placeholder}
-          type="text"
+          type={type ? type : "text"}
           value={value}
           style={{...style}}
           className="editor__content__titleinput"

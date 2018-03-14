@@ -7,7 +7,7 @@ export default class DropDown extends Component {
     super(props);
 
     this.state = {
-      droppedDown: props.open ? props.open : false,
+      droppedDown: props.opened ? props.opened : false,
       clicked: false,
     }
   }

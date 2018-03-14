@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FAIcon from 'react-fontawesome';
+import moment from 'moment';
 
 export default class Guide_Window extends Component {
   constructor(props) {
@@ -53,7 +54,7 @@ export default class Guide_Window extends Component {
                 <FAIcon name="bar-chart" style={{...this.styles.icon}}/>
             </div>
           </div>
-          <div style={{...this.styles.time}}>{'[ ' + time + ' ]'}</div>
+          <div style={{...this.styles.time}}>{'[ ' + moment(time).format('MM-DD-YYYY') + ' ]'}</div>
         </div>
         <div style={{...this.styles.heading}}>{heading}</div>
       </div>

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import registerServiceWorker from './registerServiceWorker';
 import reducers from './app/reducers'
 import axios from 'axios';
-import { Route, Router } from 'react-router';
+import { Route, Router, Redirect } from 'react-router';
 import { persistor, store } from './configureStore';
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import createBrowserHistory from 'history/createBrowserHistory'
@@ -32,9 +32,7 @@ ReactDOM.render((
     <Provider store={store}>
       <Router history={history} onUpdate={() => window.scrollTo(0,0)}>
         <div>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/home" component={Home} />
-
+          <Route exact path="/" render={() => <Redirect to="/guides"/>} />
           <Route exact path="/guides" component={Guides} />
           <Route exact path="/guides/g/:guide" component={Guides} />
           <Route exact path="/guides/t/:topic" component={Guides} />

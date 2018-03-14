@@ -87,15 +87,22 @@ export default class Guide extends Component {
   }
 
   render() {
-    const { guide, style, doNotTrack } = this.props;
+    const { guide, style, opened } = this.props;
+    let { doNotTrack } = this.props;
+
+    let dropDownOpened = this.state.opened;
+    if(opened) {
+      doNotTrack = true;
+      dropDownOpened = true;
+    }
 
     return (
       <div className="guide__container" style={{...style}}>
         <div className="guide__date-share__container">
-          <Date heading={guide.head.date.heading} time={guide.head.date.time} displayNew />
+          <Date time={guide.head.date.time} displayNew />
           <ShareButton
             style={{marginLeft: 10}}
-            link={"http://" + SERVERIP + "/guides/g/" + guide.head.heading.replace(/\s/g, '-').toLowerCase()}
+            link={"http://" + SERVERIP + "/guides/g/" + guide.searchTitle}
           />
         </div>
         <div className="guide__title__container">
@@ -103,7 +110,7 @@ export default class Guide extends Component {
           <div className="guide__subtitle">{guide.head.subHeading}</div>
         </div>
         <DropDown
-          opened={this.state.opened}
+          opened={dropDownOpened}
           onClick={(clicked) => {
             if(!clicked && !doNotTrack) axios.post('tracking/view_guide', {_id: guide._id});
           }}

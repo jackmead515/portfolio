@@ -11,10 +11,24 @@
   }
 
   &__container {
-    margin-right: 20px;
+    margin-right: 10px;
     min-width: 200px;
     max-width: 220px;
     padding: 5px;
+    padding-left: 10px;
+  }
+
+  &__about {
+    &__container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    &__image {
+      border: 2px solid black;
+    }
   }
 
   &__heading {

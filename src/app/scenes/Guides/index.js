@@ -23,7 +23,6 @@ import Navigator from '../components/Navigator';
 import Menu from '../components/Navigator/Menu';
 
 import GuideNavigator from './GuideNavigator/';
-
 var FAIcon = require('react-fontawesome');
 
 class Guides extends Component {
@@ -44,10 +43,26 @@ class Guides extends Component {
         paddingBottom: 10,
         width: '100%'
       },
-      container: {
-        marginTop: 10,
+      messageContainer: {
+        width: '100%',
+        maxWidth: 1000,
+        marginTop: 40,
+        fontWeight: 'bold',
+        display: 'flex',
+        justifyContent: 'center'
+      },
+      guidesContainer: {
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          padding: 5
+      },
+      topicContainer: {
+        maxWidth: 1000,
         marginBottom: 10,
-        padding: 5
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
       }
     }
 
@@ -58,61 +73,79 @@ class Guides extends Component {
       height: 0,
       width: 0,
       startIndex: 0,
-      endIndex: 10
+      endIndex: 5,
+      topic: null,
+      openSingleGuide: false,
+      scrollRefresh: false,
+      scrollLoading: false,
+      endOfScrollMessage: null
     }
   }
 
   componentDidMount() {
     window.addEventListener("resize", () => this.updateDimensions());
+    window.addEventListener("scroll", () => this.updateScrollPosition());
   }
 
   componentWillUnmount() {
     window.removeEventListener("resize", () => this.updateDimensions());
+    window.removeEventListener("scroll", () => this.updateScrollPosition());
   }
 
   componentWillMount() {
     const { match } = this.props;
     const { startIndex, endIndex } = this.state;
-    this.updateDimensions();
 
     this.refreshData().then(() => {
       if(match.url.startsWith('/guides/g/') && match.params.guide) {
         axios.post('/guides/guide', {searchTitle: match.params.guide}).then((res) => {
           if(res.data.status === 200) {
-            this.setState({loading: false, guides: [res.data.guide]});
+            this.setState({loading: false, guides: [res.data.guide], openSingleGuide: true});
           } else {
             this.setState({loading: false});
           }
+
+          this.updateDimensions();
+          this.updateScrollPosition();
         }).catch((err) => {
           console.log(err);
         });
       } else if(match.url.startsWith('/guides/s/') && match.params.search) {
         axios.post('/guides/search', {heading: match.params.search, subHeading: match.params.search, start: startIndex, end: endIndex}).then((res) => {
           if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides});
+            this.setState({loading: false, guides: res.data.guides, scrollRefresh: true});
           } else {
             this.setState({loading: false});
           }
+
+          this.updateDimensions();
+          this.updateScrollPosition();
         }).catch((err) => {
           console.log(err);
         });
       } else if(match.url.startsWith('/guides/t/') && match.params.topic) {
         axios.post('/guides/topic', {title: match.params.topic, start: startIndex, end: endIndex}).then((res) => {
           if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides});
+            this.setState({loading: false, guides: res.data.guides, scrollRefresh: true, topic: match.params.topic});
           } else {
             this.setState({loading: false});
           }
+
+          this.updateDimensions();
+          this.updateScrollPosition();
         }).catch((err) => {
           console.log(err);
         });
       } else if(match.url.startsWith('/guides')) {
         axios.post('/guides', {start: startIndex, end: endIndex}).then((res) => {
           if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides});
+            this.setState({loading: false, guides: res.data.guides, scrollRefresh: true});
           } else {
             this.setState({loading: false});
           }
+
+          this.updateDimensions();
+          this.updateScrollPosition();
         }).catch((err) => {
           console.log(err);
         });
@@ -127,31 +160,97 @@ class Guides extends Component {
       let refresh = false;
       if(this.props.tracking.tracking.lastSynced &&
         this.props.topics.topics.lastSynced) {
-
           let trls = new Date(this.props.tracking.tracking.lastSynced).getTime()/1000
           let tls = new Date(this.props.topics.topics.lastSynced).getTime()/1000;
-
           if(moment().subtract(trls, 'seconds').unix() > 86400 ||
              moment().subtract(tls, 'seconds').unix() > 86400) {
             refresh = true;
           }
-
       } else {
         refresh = true;
       }
-
 
       if(refresh) {
         Fetch.tracking().then((tracking) => {
           Fetch.topics().then((topics) => {
             this.props.dispatch(refreshTopics(topics));
             this.props.dispatch(refreshTracking(tracking));
+
+            resolve();
           });
         });
+      } else {
+        resolve();
       }
-
-      resolve();
     });
+  }
+
+  updateScrollPosition() {
+    var scrollTop = (window.pageYOffset || window.scrollTop)  - (window.clientTop || 0);
+    var scrollHeight = (document.documentElement && document.documentElement.scrollHeight) || document.body.scrollHeight;
+
+    if(scrollTop + window.innerHeight >= scrollHeight && this.state.scrollRefresh && !this.state.openSingleGuide) {
+      this.scrollRefreshData();
+    } else if(scrollHeight === window.innerHeight && !this.state.openSingleGuide) {
+      this.scrollRefreshData();
+    }
+  }
+
+  scrollRefreshData() {
+    let { startIndex, endIndex } = this.state;
+    const { match } = this.props;
+    startIndex = endIndex;
+    endIndex+=5;
+
+    if(match.url.startsWith('/guides/t/') && match.params.topic) {
+      this.setState({scrollLoading: true, startIndex, endIndex});
+      axios.post('/guides/topic', {title: match.params.topic, start: startIndex, end: endIndex}).then((res) => {
+        if(res.data.status === 200) {
+
+          if(isEndOfScroll(res.data.guides)) {
+            this.setState({scrollRefresh: false, scrollLoading: false, endOfScrollMessage: 'End of query. Try again later! Thanks!!'});
+          } else {
+            let { guides } = this.state;
+            guides = guides.concat(res.data.guides);
+            this.setState({guides, scrollRefresh: true, scrollLoading: false});
+          }
+
+        } else {
+          //TODO
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else if(match.url.startsWith('/guides')) {
+      this.setState({scrollLoading: true, startIndex, endIndex});
+      axios.post('/guides', {start: startIndex, end: endIndex}).then((res) => {
+        if(res.data.status === 200) {
+
+          if(isEndOfScroll(res.data.guides)) {
+            this.setState({scrollRefresh: false, scrollLoading: false, endOfScrollMessage: 'End of query. Try again later! Thanks!!'});
+          } else {
+            let { guides } = this.state;
+            guides = guides.concat(res.data.guides);
+            this.setState({guides, scrollRefresh: true, scrollLoading: false});
+          }
+
+        } else {
+          //TODO
+        }
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+
+    const isEndOfScroll = (newGuides) => {
+      let { guides } = this.state;
+
+      if(newGuides && newGuides[0]) {
+        return guides[guides.length-1]._id === newGuides[0]._id
+      } else {
+        return true;
+      }
+    }
   }
 
   updateDimensions() {
@@ -167,20 +266,18 @@ class Guides extends Component {
   }
 
   renderGuides() {
-    const { guides } = this.state;
+    const { guides, openSingleGuide } = this.state;
 
     if(guides && guides.length > 0 && guides[0]) {
       return guides.map((post, index) => {
         let backgroundColor = index%2 === 0 ? '#f2f2f2' : 'white';
-        return <Guide guide={post} key={index} style={{backgroundColor, marginTop: 5, marginBottom: 5}}/>
+        return <Guide guide={post} key={index} opened={openSingleGuide} style={{backgroundColor, marginTop: 5, marginBottom: 5}}/>
       });
     } else {
       return (
-        <div style={{width: '100%', marginTop: 50}}>
-          <Text style={{fontWeight: 'bold', display: 'flex', justifyContent: 'center'}}>
+          <Text style={{...this.styles.messageContainer}}>
             No guide found that matched your search. Please try again.
           </Text>
-        </div>
       )
     }
   }
@@ -215,8 +312,21 @@ class Guides extends Component {
     )
   }
 
+  renderTopic() {
+    const { topic } = this.state;
+
+    if(topic) {
+      return (
+        <div style={{...this.styles.topicContainer}}>
+          <FAIcon name="book" style={{marginRight: 10, fontSize: 25}}/>
+          <Heading title={topic} />
+        </div>
+      )
+    }
+  }
+
   renderMobile() {
-    const { loading } = this.state;
+    const { loading, scrollLoading, endOfScrollMessage } = this.state;
     let jsx = null;
 
     if(this.state.loading) {
@@ -225,23 +335,24 @@ class Guides extends Component {
       jsx = this.renderGuides();
     }
 
-    let paddingTop = 45;
+    let paddingTop = 60;
     let marginBottom = 60;
     if(this.props.menu.opened) paddingTop = 90;
 
     return (
       <div className="animated fadeIn" style={{display: 'flex', paddingTop, marginBottom}}>
-        <div style={{...this.styles.container}}>
-          {this.renderHeading()}
-          {jsx}
+        <div style={{...this.styles.guidesContainer, flexDirection: 'column'}} id="guide-container">
           <GuideNavigator mobile loading={this.state.loading}/>
+          {jsx}
+          {scrollLoading ? <Loading containerStyles={{display: 'flex', justifyContent: 'center', marginTop: 20, maxWidth: 1000}} scaler={2}/> : null}
+          {endOfScrollMessage ? <Text style={{...this.styles.messageContainer}}>{endOfScrollMessage}</Text> : null}
         </div>
       </div>
     )
   }
 
   renderFull() {
-    const { loading, search } = this.state;
+    const { loading, scrollLoading, endOfScrollMessage, topic } = this.state;
     let jsx = null;
 
     if(this.state.loading) {
@@ -250,16 +361,20 @@ class Guides extends Component {
       jsx = this.renderGuides();
     }
 
-    let paddingTop = 45;
+    let paddingTop = 60;
     let marginBottom = 60;
     if(this.props.menu.opened) paddingTop = 90;
 
     return (
       <div className="animated fadeIn" style={{display: 'flex', paddingTop, marginBottom}}>
-        <GuideNavigator style={{paddingTop: 25}} loading={this.state.loading}/>
-        <div style={{...this.styles.container}}>
-          {this.renderHeading()}
+        <div>
+          <GuideNavigator style={{marginTop: 5}} loading={this.state.loading}/>
+        </div>
+        <div style={{...this.styles.guidesContainer}} id="guide-container">
+          {this.renderTopic()}
           {jsx}
+          {scrollLoading ? <Loading containerStyles={{display: 'flex', justifyContent: 'center', marginTop: 20, maxWidth: 1000}} scaler={2}/> : null}
+          {endOfScrollMessage ? <Text style={{...this.styles.messageContainer}}>{endOfScrollMessage}</Text> : null}
         </div>
       </div>
     )
@@ -267,11 +382,12 @@ class Guides extends Component {
 
   render() {
     const { width } = this.state;
+    const { opened } = this.props.menu;
 
     return (
       <div className="dashboard__container">
         <Navigator />
-        <Menu />
+        {opened ? <Menu/> : null}
         {width < 750 ? this.renderMobile() : this.renderFull()}
         <Footer />
       </div>

@@ -75,8 +75,8 @@ class About extends Component {
         <Post style={{...this.styles.post}}>
           <Heading title="Who I Am" />
           <Border style={{marginTop: 5}}/>
-          <Heading style={{marginTop: 20}} subtitle="Mission Statements" />
-          <Text style={{margin: 5, fontStyle: 'italic'}}>Why does it matter? Yours is the only one that matters.</Text>
+          <Heading style={{marginTop: 20}} subtitle="Quotes I Live By" />
+          <Text style={{margin: 5, fontStyle: 'italic'}}>All we have to decide is what to do with the time that is given us. - Gandalf</Text>
           <Text style={{margin: 10}}>
             I am a programmer, scentist, DIY'er, food enthusiast, adventurer, traveler, skater, and lover of music.
             I love to program just about anything. I also love to teach the concepts I learn in a fun and entertaining way.

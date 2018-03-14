@@ -36,8 +36,7 @@ class Projects extends Component {
       },
       post: {
         width: '100%',
-        marginTop: 10,
-        marginBottom: 10,
+        margin: 10,
         maxWidth: 500,
         padding: 5
       },

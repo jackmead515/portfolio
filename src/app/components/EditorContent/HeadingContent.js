@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 
 import FAIcon from 'react-fontawesome';
 import Widgets from './Widgets';
@@ -50,13 +51,15 @@ export default class CodeContent extends Component {
     return (
       <div style={{...this.styles.column}}>
         <EditorInput
-          title="Format must be: mm/dd/yy"
-          placeholder="Date..."
-          value={head.date.time}
+          title="Format must be: mm/dd/yyyy"
+          type="date"
+          value={moment(head.date.time).format('YYYY-MM-DD')}
           style={{marginBottom: 5}}
           onChange={(e) => {
             let { head } = this.state;
-            head.date.time = e.target.value;
+            let time = moment(e.target.value).valueOf();
+            head.date.time = isNaN(time) ? 'null' : time;
+            console.log(head.date.time);
             this.setState({head})
           }}
         />

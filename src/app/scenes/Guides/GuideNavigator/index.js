@@ -1,57 +1,96 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
+import moment from 'moment';
 
 import { SERVERIP } from '../../../../index.js';
-import { refreshTracking } from '../../../actions/tracking';
 
-import DateNavigator from './DateNavigator';
+import YearDropDown from './YearDropDown';
 import Loading from '../../../components/Loading';
 
-import axios from 'axios';
-import { popular } from '../../../util/';
+import { refreshRecent, refreshPopular } from '../../../actions/guides';
+import { refreshTopics } from '../../../actions/topics';
+import Fetch from '../../../util/Fetch';
 import _ from 'lodash';
 
 class GuideNavigator extends Component {
 
+  componentDidMount() {
+    this.refreshData();
+  }
+
+  refreshData() {
+    return new Promise((resolve, reject) => {
+      let refresh = false;
+      if(this.props.topics.topics.lastSynced &&
+         this.props.guides.popular.lastSynced &&
+         this.props.guides.recent.lastSynced) {
+
+          let rls = new Date(this.props.guides.recent.lastSynced).getTime()/1000;
+          let pls = new Date(this.props.guides.popular.lastSynced).getTime()/1000;
+          let tls = new Date(this.props.topics.topics.lastSynced).getTime()/1000;
+
+          //one day...
+          if(moment().subtract(tls, 'seconds').unix() > 86400000 ||
+             moment().subtract(rls, 'seconds').unix() > 86400000 ||
+             moment().subtract(pls, 'seconds').unix() > 86400000) {
+               refresh = true;
+            }
+      } else {
+        refresh = true;
+      }
+
+      if(refresh) {
+        Fetch.recent().then((recent) => {
+          Fetch.popular().then((popular) => {
+            Fetch.topics().then((topics) => {
+              this.props.dispatch(refreshRecent(recent));
+              this.props.dispatch(refreshPopular(popular));
+              this.props.dispatch(refreshTopics(topics));
+
+              resolve();
+            });
+          });
+        });
+      } else {
+        resolve();
+      }
+    });
+  }
+
   renderRecent() {
-    const guides = this.props.guides.guides.data;
+    let guides = this.props.guides.recent.data;
 
     if(guides.length <= 0) return null;
 
-    let recentGuides = [];
-    for(let i = 0; i < 3; i++) {
-      let g = guides[i];
-      if(g) {
-        recentGuides.push((
-          <a
-            key={g.searchTitle + ' ' + i}
-            className="guidenav__post"
-            href={"http://" + SERVERIP + "/guides/g/" + g.searchTitle}
-          >
-             {g.head.heading}
-          </a>
-        ));
-      } else {
-        break;
-      }
-    }
+    guides = _.sortBy(guides, (g) => -g.time);
+
+    let recent = guides.map((g, i) => {
+      return (
+        <a
+          key={g.searchTitle + ' ' + i}
+          className="guidenav__post"
+          href={"http://" + SERVERIP + "/guides/g/" + g.searchTitle}
+        >
+           {g.heading}
+        </a>
+      )
+    });
 
     return (
       <div key="recent-guides">
         <div className="guidenav__heading">Recent Posts</div>
-        {recentGuides}
+        {recent}
       </div>
     )
   }
 
   renderPopular() {
-    const tracking = this.props.tracking.tracking.data;
+    let popular = this.props.guides.popular.data;
 
-    if(tracking.length <= 0) return null;
+    if(popular.length <= 0) return null;
 
-    let mostPopular = popular(tracking, 3);
-
-    let arr = mostPopular.map((mp) => {
+    let arr = popular.map((mp) => {
       return (
         <a
           key={mp.heading}
@@ -102,6 +141,15 @@ class GuideNavigator extends Component {
     )
   }
 
+  renderYears() {
+    return (
+      <div key="years-list" style={{marginTop: 15}}>
+        <div className="guidenav__heading">By Date</div>
+        <YearDropDown year={'2018'}/>
+      </div>
+    )
+  }
+
   renderLoading() {
     if(this.props.mobile) {
       return (
@@ -126,7 +174,7 @@ class GuideNavigator extends Component {
         {this.renderRecent()}
         {this.renderPopular()}
         {this.renderTopics()}
-        <DateNavigator key="date-navigator" guides={this.props.guides.guides.data}/>
+        {this.renderYears()}
       </div>
     );
   }
@@ -138,7 +186,7 @@ class GuideNavigator extends Component {
       <div className="guidenav__container" style={{...style}}>
         <div className="guidenav__about__container">
           <img src="http://127.0.0.1:5000/images/profileimage.jpg"  className="guidenav__about__image" />
-          <p>
+          <p style={{textAlign: 'center'}}>
             Hey what's up gals and guys? My name is Jack. Browse to your hearts content! Subscribe and
             support me if you like what your looking at!
           </p>
@@ -146,7 +194,14 @@ class GuideNavigator extends Component {
         {this.renderRecent()}
         {this.renderPopular()}
         {this.renderTopics()}
-        <DateNavigator key="date-navigator" guides={this.props.guides.guides.data}/>
+        {this.renderYears()}
+        <div>
+          <ins className="adsbygoogle"
+               style={{display: 'block'}}
+               data-ad-client="ca-pub-2478872111392737"
+               data-ad-slot="3286717863"
+               data-ad-format="auto"></ins>
+        </div>
       </div>
     );
   }
@@ -157,8 +212,6 @@ class GuideNavigator extends Component {
     if(loading) return this.renderLoading();
 
     return mobile ? this.renderMobile() : this.renderFull();
-
-
   }
 }
 

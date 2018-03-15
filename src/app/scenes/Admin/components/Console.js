@@ -12,6 +12,7 @@ import Guide_Window from './Guide_Window';
 import Topic_Window from './Topic_Window';
 import PieGraph from '../../../components/PieGraph';
 import LineGraph from '../../../components/LineGraph';
+import Border from '../../../components/Border';
 
 import axios from 'axios';
 import FAIcon from 'react-fontawesome';
@@ -86,19 +87,15 @@ class Console extends Authenticator {
 
   refreshData() {
     this.setState({loading: true});
-    Fetch().then((data) => {
-      this.props.dispatch(refreshTopics(data.topics));
-      this.props.dispatch(refreshTracking(data.tracking));
-      axios.post('/guides/all', {token: localStorage.getItem('portfolio_auth_token')}).then((res) => {
-        let guides = [];
-        if(res.data.status === 200) {
-          this.props.dispatch(refreshGuides(res.data.guides));
-          guides = res.data.guides;
-        } else {
-          this.props.dispatch(refreshGuides([]));
-        }
+    Fetch.tracking().then((tracking) => {
+      Fetch.topics().then((topics) => {
+        Fetch.allGuides().then((guides) => {
+          this.props.dispatch(refreshTopics(topics));
+          this.props.dispatch(refreshTracking(tracking));
+          this.props.dispatch(refreshGuides(guides));
 
-        this.setState({loading: false, tracking: data.tracking, guides});
+          this.setState({loading: false, tracking, guides});
+        });
       });
     });
   }
@@ -149,13 +146,16 @@ class Console extends Authenticator {
 
     return (
       <div style={{marginTop: 20}}>
-        <button
-          style={{marginLeft: 5}}
-           className="adminnavigator__button"
-           onClick={() => this.props.dispatch(navigateAdmin('EDITOR', this.createGuideTemplate()))}
-        >
-           New Guide<FAIcon name="new" style={{marginLeft: 5}}/>
-        </button>
+        <div className="row" style={{alignItems: 'center'}}>
+          <button
+            style={{marginLeft: 5}}
+             className="adminnavigator__button"
+             onClick={() => this.props.dispatch(navigateAdmin('EDITOR', this.createGuideTemplate()))}
+          >
+             New Guide<FAIcon name="new" style={{marginLeft: 5}}/>
+          </button>
+          <div style={{marginLeft: 10, color: "white", fontWeight: 'bold'}}>Total: {data.length}</div>
+        </div>
         <div style={{width: '100%', display: 'flex', flexWrap: 'wrap'}}>
           {data}
         </div>
@@ -223,6 +223,7 @@ class Console extends Authenticator {
         <div style={{paddingLeft: 20, paddingRight: 20}}>
           {this.renderGraphs()}
           {this.renderTopics()}
+          <div style={{border: '2px solid white', marginTop: 20}}/>
           {this.renderGuides()}
         </div>
       );

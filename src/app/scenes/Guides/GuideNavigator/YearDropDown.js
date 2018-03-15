@@ -45,7 +45,7 @@ export default class YearDropDown extends Component {
     const { style, year } = this.props;
     const { droppedDown } = this.state;
     let icon = droppedDown ? 'caret-up' : 'caret-down';
-    let dropDownClassNames = droppedDown ? "animatedFast fadeIn" : "animatedFast fadeOut"
+    let dropDownClassNames = droppedDown ? "animatedSuperFast fadeIn" : "animatedSuperFast fadeOut"
     let jsx = null;
 
     if(droppedDown) {

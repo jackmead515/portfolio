@@ -1,11 +1,16 @@
-import { dateRange } from '../util/';
-
 const initialState = {
   guides: {
     data: [],
-    dateRange: 0,
     lastSynced: undefined
   },
+  popular: {
+    data: [],
+    lastSynced: undefined
+  },
+  recent: {
+    data: [],
+    lastSynced: undefined
+  }
 };
 
 export default (state = initialState, action = {}) => {
@@ -16,7 +21,22 @@ export default (state = initialState, action = {}) => {
         guides: {
           data: action.data,
           lastSynced: new Date(),
-          dateRange: dateRange(action.data)
+        }
+      }
+    case 'REFRESH_POPULAR':
+      return {
+        ...state,
+        popular: {
+          data: action.data,
+          lastSynced: new Date(),
+        }
+      }
+    case 'REFRESH_RECENT':
+      return {
+        ...state,
+        recent: {
+          data: action.data,
+          lastSynced: new Date(),
         }
       }
     default:

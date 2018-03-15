@@ -5,10 +5,6 @@ import moment from 'moment';
 
 import { history } from '../../../index.js';
 import { navigate } from '../../actions/menu';
-import { refreshGuides } from '../../actions/guides';
-import { refreshTracking } from '../../actions/tracking';
-import { refreshTopics } from '../../actions/topics';
-import Fetch from '../../util/Fetch.js';
 
 import Loading from '../../components/Loading';
 
@@ -85,6 +81,11 @@ class Guides extends Component {
   componentDidMount() {
     window.addEventListener("resize", () => this.updateDimensions());
     window.addEventListener("scroll", () => this.updateScrollPosition());
+
+    (window.adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-2478872111392737",
+      enable_page_level_ads: true
+    });
   }
 
   componentWillUnmount() {
@@ -96,93 +97,61 @@ class Guides extends Component {
     const { match } = this.props;
     const { startIndex, endIndex } = this.state;
 
-    this.refreshData().then(() => {
-      if(match.url.startsWith('/guides/g/') && match.params.guide) {
-        axios.post('/guides/guide', {searchTitle: match.params.guide}).then((res) => {
-          if(res.data.status === 200) {
-            this.setState({loading: false, guides: [res.data.guide], openSingleGuide: true});
-          } else {
-            this.setState({loading: false});
-          }
+    if(match.url.startsWith('/guides/g/') && match.params.guide) {
+      axios.post('/guides/guide', {searchTitle: match.params.guide}).then((res) => {
+        if(res.data.status === 200) {
+          this.setState({loading: false, guides: [res.data.guide], openSingleGuide: true});
+        } else {
+          this.setState({loading: false});
+        }
 
-          this.updateDimensions();
-          this.updateScrollPosition();
-        }).catch((err) => {
-          console.log(err);
-        });
-      } else if(match.url.startsWith('/guides/s/') && match.params.search) {
-        axios.post('/guides/search', {heading: match.params.search, subHeading: match.params.search, start: startIndex, end: endIndex}).then((res) => {
-          if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides, scrollRefresh: true});
-          } else {
-            this.setState({loading: false});
-          }
+        this.updateDimensions();
+        this.updateScrollPosition();
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else if(match.url.startsWith('/guides/s/') && match.params.search) {
+      axios.post('/guides/search', {heading: match.params.search, subHeading: match.params.search, start: startIndex, end: endIndex}).then((res) => {
+        if(res.data.status === 200) {
+          this.setState({loading: false, guides: res.data.guides, scrollRefresh: true});
+        } else {
+          this.setState({loading: false});
+        }
 
-          this.updateDimensions();
-          this.updateScrollPosition();
-        }).catch((err) => {
-          console.log(err);
-        });
-      } else if(match.url.startsWith('/guides/t/') && match.params.topic) {
-        axios.post('/guides/topic', {title: match.params.topic, start: startIndex, end: endIndex}).then((res) => {
-          if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides, scrollRefresh: true, topic: match.params.topic});
-          } else {
-            this.setState({loading: false});
-          }
+        this.updateDimensions();
+        this.updateScrollPosition();
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else if(match.url.startsWith('/guides/t/') && match.params.topic) {
+      axios.post('/guides/topic', {title: match.params.topic, start: startIndex, end: endIndex}).then((res) => {
+        if(res.data.status === 200) {
+          this.setState({loading: false, guides: res.data.guides, scrollRefresh: true, topic: match.params.topic});
+        } else {
+          this.setState({loading: false});
+        }
 
-          this.updateDimensions();
-          this.updateScrollPosition();
-        }).catch((err) => {
-          console.log(err);
-        });
-      } else if(match.url.startsWith('/guides')) {
-        axios.post('/guides', {start: startIndex, end: endIndex}).then((res) => {
-          if(res.data.status === 200) {
-            this.setState({loading: false, guides: res.data.guides, scrollRefresh: true});
-          } else {
-            this.setState({loading: false});
-          }
+        this.updateDimensions();
+        this.updateScrollPosition();
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else if(match.url.startsWith('/guides')) {
+      axios.post('/guides', {start: startIndex, end: endIndex}).then((res) => {
+        if(res.data.status === 200) {
+          this.setState({loading: false, guides: res.data.guides, scrollRefresh: true});
+        } else {
+          this.setState({loading: false});
+        }
 
-          this.updateDimensions();
-          this.updateScrollPosition();
-        }).catch((err) => {
-          console.log(err);
-        });
-      } else {
-        this.setState({loading: false});
-      }
-    });
-  }
-
-  refreshData() {
-    return new Promise((resolve, reject) => {
-      let refresh = false;
-      if(this.props.tracking.tracking.lastSynced &&
-        this.props.topics.topics.lastSynced) {
-          let trls = new Date(this.props.tracking.tracking.lastSynced).getTime()/1000
-          let tls = new Date(this.props.topics.topics.lastSynced).getTime()/1000;
-          if(moment().subtract(trls, 'seconds').unix() > 86400 ||
-             moment().subtract(tls, 'seconds').unix() > 86400) {
-            refresh = true;
-          }
-      } else {
-        refresh = true;
-      }
-
-      if(refresh) {
-        Fetch.tracking().then((tracking) => {
-          Fetch.topics().then((topics) => {
-            this.props.dispatch(refreshTopics(topics));
-            this.props.dispatch(refreshTracking(tracking));
-
-            resolve();
-          });
-        });
-      } else {
-        resolve();
-      }
-    });
+        this.updateDimensions();
+        this.updateScrollPosition();
+      }).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      this.setState({loading: false});
+    }
   }
 
   updateScrollPosition() {
@@ -202,6 +171,8 @@ class Guides extends Component {
     startIndex = endIndex;
     endIndex+=5;
 
+    if(this.state.scrollLoading) { return; }
+
     if(match.url.startsWith('/guides/t/') && match.params.topic) {
       this.setState({scrollLoading: true, startIndex, endIndex});
       axios.post('/guides/topic', {title: match.params.topic, start: startIndex, end: endIndex}).then((res) => {
@@ -216,12 +187,13 @@ class Guides extends Component {
           }
 
         } else {
-          //TODO
+          this.setState({scrollRefresh: false, scrollLoading: false, endOfScrollMessage: 'Woops. Server is broken. Please refresh the page.'});
         }
       }).catch((err) => {
         console.log(err);
       });
     } else if(match.url.startsWith('/guides')) {
+
       this.setState({scrollLoading: true, startIndex, endIndex});
       axios.post('/guides', {start: startIndex, end: endIndex}).then((res) => {
         if(res.data.status === 200) {
@@ -235,7 +207,7 @@ class Guides extends Component {
           }
 
         } else {
-          //TODO
+          this.setState({scrollRefresh: false, scrollLoading: false, endOfScrollMessage: 'Woops. Server is broken. Please refresh the page.'});
         }
       }).catch((err) => {
         console.log(err);
@@ -244,12 +216,12 @@ class Guides extends Component {
 
     const isEndOfScroll = (newGuides) => {
       let { guides } = this.state;
-
-      if(newGuides && newGuides[0]) {
-        return guides[guides.length-1]._id === newGuides[0]._id
-      } else {
-        return true;
+      if(newGuides.length <= 0) { return true; }
+      for(let i = 0; i < guides.length; i++) {
+        let ng = newGuides.find((ng) => ng._id === guides[i]._id);
+        if(ng) { return true; }
       }
+      return false;
     }
   }
 
@@ -266,12 +238,18 @@ class Guides extends Component {
   }
 
   renderGuides() {
-    const { guides, openSingleGuide } = this.state;
+    const { guides } = this.state;
 
     if(guides && guides.length > 0 && guides[0]) {
       return guides.map((post, index) => {
         let backgroundColor = index%2 === 0 ? '#f2f2f2' : 'white';
-        return <Guide guide={post} key={index} opened={openSingleGuide} style={{backgroundColor, marginTop: 5, marginBottom: 5}}/>
+        return (
+          <Guide
+            guide={post}
+            key={index}
+            style={{backgroundColor, marginTop: 5, marginBottom: 5}}
+          />
+        )
       });
     } else {
       return (
@@ -279,6 +257,20 @@ class Guides extends Component {
             No guide found that matched your search. Please try again.
           </Text>
       )
+    }
+  }
+
+  renderSingleGuide() {
+    const { guides } = this.state;
+
+    if(guides && guides.length > 0 && guides[0]) {
+      return <Guide guide={guides[0]} opened={true} style={{marginTop: 5, marginBottom: 5}}/>
+    } else {
+      return (
+        <Text style={{...this.styles.messageContainer}}>
+          No guide found that matched your search. Please try again.
+        </Text>
+      );
     }
   }
 
@@ -352,11 +344,13 @@ class Guides extends Component {
   }
 
   renderFull() {
-    const { loading, scrollLoading, endOfScrollMessage, topic } = this.state;
+    const { loading, scrollLoading, endOfScrollMessage, topic, openSingleGuide } = this.state;
     let jsx = null;
 
     if(this.state.loading) {
       jsx = <Loading containerStyles={{display: 'flex', justifyContent: 'center', marginTop: '30vh'}} scaler={2}/>
+    } else if(openSingleGuide) {
+      jsx = this.renderSingleGuide();
     } else {
       jsx = this.renderGuides();
     }

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const tracking = () => {
   return new Promise((resolve, reject) => {
-    axios.post('/tracking/get_tracking').then((res) => {
+    axios.post('/tracking/get_tracking', {token: localStorage.getItem('portfolio_auth_token')}).then((res) => {
       if(res.data.status === 200) {
 
         let { tracking } = res.data;
@@ -22,7 +22,7 @@ export const tracking = () => {
         resolve([]);
       }
     }).catch((err) => {
-
+      console.log(err);
     });
   });
 }
@@ -31,13 +31,12 @@ export const topics = () => {
   return new Promise((resolve, reject) => {
     axios.post('/topics/get_topics').then((res) => {
       if(res.data.status === 200) {
-
         resolve(res.data.topics);
-
       } else {
         resolve([])
       }
     }).catch((err) => {
+      console.log(err);
       resolve([])
     });
   });
@@ -52,21 +51,62 @@ export const guides = (start, end) => {
         resolve([])
       }
     }).catch((err) => {
+      console.log(err);
       resolve([])
     });
   });
 }
 
-const all = (start, end) => {
+export const allGuides = () => {
   return new Promise((resolve, reject) => {
-    guides(start, end).then((guides) => {
-      tracking().then((tracking) => {
-        topics().then((topics) => {
-          resolve({guides, tracking, topics})
-        });
-      });
+    axios.post('/guides/all', {token: localStorage.getItem('portfolio_auth_token')}).then((res) => {
+      if(res.data.status === 200) {
+        resolve(res.data.guides);
+      } else {
+        resolve([])
+      }
+    }).catch((err) => {
+      console.log(err);
+      resolve([])
     });
   });
 }
 
-export default all;
+export const popular = (amount) => {
+  return new Promise((resolve, reject) => {
+    axios.post('/tracking/popular', {amount}).then((res) => {
+      if(res.data.status === 200) {
+        resolve(res.data.guides);
+      } else {
+        resolve([])
+      }
+    }).catch((err) => {
+      console.log(err);
+      resolve([])
+    });
+  });
+};
+
+export const recent = (amount) => {
+  return new Promise((resolve, reject) => {
+    axios.post('/guides/recent', {amount}).then((res) => {
+      if(res.data.status === 200) {
+        resolve(res.data.guides);
+      } else {
+        resolve([])
+      }
+    }).catch((err) => {
+      console.log(err);
+      resolve([])
+    });
+  });
+}
+
+export default {
+  recent,
+  popular,
+  allGuides,
+  guides,
+  topics,
+  tracking
+}

@@ -550,7 +550,7 @@ class Editor extends Authenticator {
              Delete<FAIcon name="trash" style={{marginLeft: 5}}/>
           </button>
         </div>
-        <Guide guide={this.state.guide} style={{backgroundColor: 'white', marginTop: 40}} doNotTrack />
+        <Guide guide={this.state.guide} opened={true} style={{backgroundColor: 'white', marginTop: 40}} doNotTrack />
       </div>
     )
   }

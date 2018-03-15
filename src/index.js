@@ -20,7 +20,7 @@ import Help from './app/scenes/Help';
 import Plugin from './app/scenes/Plugin';
 import Projects from './app/scenes/Projects';
 
-export const SERVERIP = '127.0.0.1:3000';
+export const SERVERIP = 'www.speblog.org';
 export const NODEIP = '127.0.0.1:5000';
 export const history = createBrowserHistory();
 

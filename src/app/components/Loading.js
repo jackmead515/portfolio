@@ -43,7 +43,7 @@ export default class Loading extends Component {
         { backgroundColor: props.backColor ? props.backColor : 'white'},
       ],
       opacity: {
-        'opacity': 0
+        'opacity': props.fadeIn ? 0 : 1
       }
     }
 

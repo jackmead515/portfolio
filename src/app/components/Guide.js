@@ -13,6 +13,8 @@ import Video from './Video';
 import Code from './Code';
 import ShareButton from './ShareButton';
 
+var FAIcon = require('react-fontawesome');
+
 export default class Guide extends Component {
   constructor(props) {
     super(props);
@@ -99,6 +101,9 @@ export default class Guide extends Component {
     return (
       <div className="guide__container" style={{...style}}>
         <div className="guide__date-share__container">
+          <a href={"http://" + SERVERIP + "/guides/g/" + guide.searchTitle}>
+            <FAIcon name="external-link" style={{marginRight: 10}}/>
+          </a>
           <Date time={guide.head.date.time} displayNew />
           <ShareButton
             style={{marginLeft: 10}}

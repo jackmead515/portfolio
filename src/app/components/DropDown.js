@@ -38,6 +38,7 @@ export default class DropDown extends Component {
               droppedDown: !this.state.droppedDown,
               clicked: true
             });
+              
             if(onClick) onClick(this.state.clicked);
           }}
         >

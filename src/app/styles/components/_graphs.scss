@@ -1,45 +1,36 @@
 .graphs {
 
-  &__arc {
-    pointer-events: all;
-    fill: rgba(173, 255, 107, 0.8);
-    transition: fill 0.3;
-  }
+    &__console {
 
-  &__arc:hover {
-    fill: rgb(238, 146, 136);
-    cursor: pointer;
-  }
+      &__bar {
+        stroke: #e3e3e3;
+        stroke-width: 1px;
+        fill: #f2f2f2;
+        transition: fill 0.2s;
+      }
 
-  &__line {
-    stroke: rgba(173, 255, 107, 0.8);
-    stroke-width: 3px;
-    pointer-events: all;
-  }
+      &__bar:hover {
+        fill: #00aaff;
+        cursor: pointer;
+      }
 
-  &__line:hover {
-    stroke: rgb(238, 146, 136);
-  }
+      &__text {
+        font-size: 10px;
+        font-weight: bold;
+      }
 
-  &__dot {
-    pointer-events: all;
-    fill: rgba(173, 255, 107, 0.8);
-    transition: fill 0.3;
-  }
+      &__tooltip {
+        position: absolute;
+        text-align: center;
+        width: 60px;
+        height: 28px;
+        padding: 2px;
+        font: 12px sans-serif;
+        background: lightsteelblue;
+        border: 0px;
+        border-radius: 8px;
+        pointer-events: none;
+      }
 
-  &__dot:hover {
-    fill: rgb(238, 146, 136);
-    cursor: pointer;
-  }
-
-  &__tooltip {
-    position: absolute;
-    padding: 5px;
-    border-radius: 2px;
-    color: white;
-    background-color: rgba(12, 209, 223, 0.45);
-    border: 1px solid #e8e8e8;
-    pointer-events: none;
-  }
-
+    }
 }

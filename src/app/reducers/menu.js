@@ -1,6 +1,6 @@
 const initialState = {
-  opened: false,
-  skills: false,
+  commands: [],
+  commandIndex: 0,
   admin: {
     page: 'LOGIN',
     extra: undefined
@@ -10,19 +10,16 @@ const initialState = {
     backgroundColor: 'black',
     iconColor: 'white',
     themeIndex: -1
-  }
+  },
+  windowWidth: 0,
+  windowHeight: 0,
+  mouseX: 0,
+  mouseY: 0,
+  bees: false
 };
 
 export default (state = initialState, action = {}) => {
   switch(action.type) {
-    case 'PAGE_NAVIGATION':
-      return {
-        ...state,
-        user: {
-          page: action.data.page,
-          pageProps: action.data.extra
-        }
-      }
     case 'ADMIN_PAGE_NAVIGATION':
       return {
         ...state,
@@ -31,21 +28,34 @@ export default (state = initialState, action = {}) => {
           extra: action.data.extra
         }
       }
-    case 'MENU_TOGGLE':
-        return {
-          ...state,
-          opened: action.data
-        }
-    case 'SKILLS_TOGGLE':
+    case 'REFRESH_COMMANDS':
       return {
         ...state,
-        skills: action.data
+        commands: action.data,
+        commandIndex: action.index
       }
     case 'CHANGE_THEME':
         return {
           ...state,
           theme: action.data
         }
+    case 'REFRESH_WINDOWDIMS':
+        return {
+          ...state,
+          windowWidth: action.windowWidth,
+          windowHeight: action.windowHeight
+        }
+    case 'REFRESH_MOUSEDIMS':
+      return {
+        ...state,
+        mouseX: action.mouseX,
+        mouseY: action.mouseY
+      }
+    case 'TOGGLE_BEES':
+      return {
+        ...state,
+        bees: action.data
+      }
     default:
       return state;
   }

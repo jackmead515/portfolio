@@ -4,13 +4,15 @@ import FAIcon from 'react-fontawesome';
 import Widgets from './Widgets';
 import EditorInput from './EditorInput';
 
+import editorColors from '../../styles/editorColors';
+
 export default class TextContent extends Component {
   constructor(props) {
     super(props);
 
     this.styles = {
       container: {
-        backgroundColor: 'rgba(102, 255, 102, 0.7)',
+        border: '5px solid ' + editorColors.text,
       },
       column: {
         display: 'flex',

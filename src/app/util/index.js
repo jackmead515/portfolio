@@ -31,3 +31,7 @@ export const dateRange = (data) => {
 
   return max-min;
 }
+
+export const getKeywords = (keywords) => {
+  return keywords.split(' ').filter((k) => k.length > 4);
+};

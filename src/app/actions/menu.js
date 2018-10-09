@@ -6,23 +6,40 @@ export const navigateAdmin = (page, extra) => {
   }
 }
 
-export const toggleMenu = (data) => {
-  return {
-    type: 'MENU_TOGGLE',
-    data
-  }
-}
-
-export const toggleSkills = (data) => {
-  return {
-    type: 'SKILLS_TOGGLE',
-    data
-  }
-}
-
 export const changeTheme = (data) => {
   return {
     type: 'CHANGE_THEME',
     data
+  }
+}
+
+export const toggleBees = (data) => {
+  return {
+    type: 'TOGGLE_BEES',
+    data
+  }
+}
+
+export const refreshCommands = (index, data) => {
+  return {
+    type: 'REFRESH_COMMANDS',
+    data,
+    index
+  }
+}
+
+export const refreshWindowDims = (windowWidth, windowHeight) => {
+  return {
+    type: 'REFRESH_WINDOWDIMS',
+    windowWidth,
+    windowHeight
+  }
+}
+
+export const refreshMouseDims = (mouseX, mouseY) => {
+  return {
+    type: 'REFRESH_MOUSEDIMS',
+    mouseX,
+    mouseY
   }
 }

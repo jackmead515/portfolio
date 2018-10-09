@@ -10,7 +10,7 @@ export default class TopicContent extends Component {
 
     this.styles = {
       container: {
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        border: '5px solid black',
       },
       column: {
         display: 'flex',

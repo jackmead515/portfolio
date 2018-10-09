@@ -67,13 +67,15 @@ export default class Loading extends Component {
         let color = colors[0]; colors.shift(); colors.push(color);
       }
 
-      opacity['opacity'] < 1 ? opacity['opacity']+=0.06 : null;
-
+      if(opacity['opacity'] < 1) {
+        opacity['opacity']+=0.06
+      }
+      
       this.setState({colors, opacity});
     }, this.speed);
   }
 
-  componentWillUnMount() {
+  componentWillUnmount() {
     clearInterval(this.interval);
   }
 

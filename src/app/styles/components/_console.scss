@@ -1,71 +1,33 @@
 .console {
-  &__container {
-    background: url("/images/login_background.jpg");
-    width: 100vw;
-    height: 100vh;
-    min-width: 100vw;
-    max-width: 100vw;
-    min-height: 100vh;
-    max-height: 100vh;
+
+  &__tc {
+    width: 100%;
     display: flex;
     flex-direction: column;
+  }
+
+  &__th {
+    display: flex;
     align-items: center;
-    justify-content: center;
+    margin-bottom: 10px;
   }
 
-  &__window {
+  &__th--title {
+    margin: 0;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  &__th--button {
+    margin-left: 10px;
+    padding: 10px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #e8e8e8;
-    background-color: #0cd1df;
-    background-color: rgba(12, 209, 223, 0.7);
-    max-width: 300px;
-    min-width: 300px;
   }
 
-  &__guidewindow {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    border: 1px solid #e8e8e8;
-    background-color: #0cd1df;
-    background-color: rgba(12, 209, 223, 0.7);
-    max-width: 250px;
-  }
-
-  &__guidewindow__button {
-    transition: transform 0.1s;
-  }
-
-  &__guidewindow__button:hover {
-    transform: scale(1.25);
+  &__th--button:hover {
     cursor: pointer;
   }
 
-  &__guidewindow__button:active {
-    opacity: 0.5;
-  }
-
-  &__wrapper {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 50px;
-    overflow-y: auto;
-  }
-
-  @media screen and (max-width: 490px) {
-    &__wrapper {
-      margin-top: 80px;
-    }
-  }
 }

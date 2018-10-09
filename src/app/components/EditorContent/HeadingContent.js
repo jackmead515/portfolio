@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 
-import FAIcon from 'react-fontawesome';
 import Widgets from './Widgets';
 import EditorInput from './EditorInput';
 
@@ -11,7 +10,7 @@ export default class CodeContent extends Component {
 
     this.styles = {
       container: {
-        backgroundColor: 'rgba(255, 255, 255, 0.7)',
+        border: '5px solid black',
       },
       column: {
         display: 'flex',
@@ -24,8 +23,16 @@ export default class CodeContent extends Component {
 
     this.state = {
       editing: false,
+      tagsString: props.content.tags ? props.content.tags.join(" ") : '',
       head: props.content
     }
+  }
+
+  componentWillMount() {
+    let { head } = this.state;
+    let time = moment(head.date.time).valueOf();
+    head.date.time = isNaN(time) ? 'null' : time;
+    this.setState({head});
   }
 
   renderWidgets() {
@@ -37,8 +44,12 @@ export default class CodeContent extends Component {
         required
         editing={editing}
         onClickSave={() => {
-          this.setState({editing: false});
-          onClickSave(head)
+          let { head, tagsString } = this.state;
+          let tags = tagsString ? tagsString.trim().replace(/\s/g, " ").split(" ") : [];
+          head.tags = tags;
+          this.setState({editing: false, head}, () => {
+            onClickSave(this.state.head)
+          });
         }}
         onClickEdit={() => this.setState({editing: true})}
         onClickMinus={() => {}}
@@ -47,9 +58,28 @@ export default class CodeContent extends Component {
   }
 
   renderHeading() {
-    const { head } = this.state;
+    const { head, tagsString } = this.state;
     return (
       <div style={{...this.styles.column}}>
+        <div className="row" style={{padding: 5}}>
+          <input
+            type={"checkbox"}
+            checked={head.private}
+            onChange={(e) => {
+              let { head } = this.state;
+              head.private = e.target.checked;
+              this.setState({head})
+            }}
+          />
+          <div>Private</div>
+        </div>
+        <EditorInput
+          title="Seperate tags by spaces"
+          placeholder="Programming Science Javascript Travel ..."
+          value={tagsString}
+          style={{marginBottom: 5}}
+          onChange={(e) => this.setState({tagsString: e.target.value})}
+        />
         <EditorInput
           title="Format must be: mm/dd/yyyy"
           type="date"
@@ -59,7 +89,6 @@ export default class CodeContent extends Component {
             let { head } = this.state;
             let time = moment(e.target.value).valueOf();
             head.date.time = isNaN(time) ? 'null' : time;
-            console.log(head.date.time);
             this.setState({head})
           }}
         />

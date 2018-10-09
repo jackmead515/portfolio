@@ -4,13 +4,15 @@ import FAIcon from 'react-fontawesome';
 import Widgets from './Widgets';
 import EditorInput from './EditorInput';
 
-export default class ImageContent extends Component {
+import editorColors from '../../styles/editorColors';
+
+export default class VideoContent extends Component {
   constructor(props) {
     super(props);
 
     this.styles = {
       container: {
-        backgroundColor: 'rgba(179, 134, 0, 0.7)',
+        border: '5px solid ' + editorColors.video,
       },
       column: {
         display: 'flex',

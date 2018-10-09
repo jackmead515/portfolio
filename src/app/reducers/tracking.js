@@ -1,7 +1,7 @@
 const initialState = {
   tracking: {
     data: [],
-    lastSynced: null
+    lastSynced: undefined
   }
 };
 

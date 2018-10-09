@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { navigateAdmin } from '../../actions/menu';
 import axios from 'axios';
+import { history, SERVERIP } from '../../../index.js';
 
 export default class Authenticator extends Component {
   constructor(props) {
@@ -12,18 +12,18 @@ export default class Authenticator extends Component {
     axios.post('/login/auth', {token: localStorage.getItem('portfolio_auth_token')})
     .then((res) => {
       if(res.data.status !== 200){
-        this.props.dispatch(navigateAdmin('LOGIN'));
+        history.push('/login');
       } else {
         this.setState({authenticated: true});
       }
     }).catch((err) => {
-      this.props.dispatch(navigateAdmin('LOGIN'));
+      history.push('/login');
     });
   }
 
   logout() {
     this.setState({authenticated: false});
     localStorage.setItem('portfolio_auth_token', '');
-    this.props.dispatch(navigateAdmin('LOGIN'));
+    history.push('/login');
   }
 }

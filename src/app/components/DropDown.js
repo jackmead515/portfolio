@@ -13,17 +13,22 @@ export default class DropDown extends Component {
   }
 
   render() {
-    const { style, children, onClick } = this.props;
+    const { style, children, onClick, heading, containerStyles } = this.props;
     const { droppedDown } = this.state;
     let icon = droppedDown ? 'caret-up' : 'caret-down';
     let dropDownClassNames = droppedDown ? "guide__content__container animated fadeIn" : "guide__content__container animated fadeOut"
     let jsx = null;
+    let title = null;
     if(droppedDown) {
       jsx = (
-        <div className={dropDownClassNames}>
+        <div className={dropDownClassNames} style={{...containerStyles}}>
           {droppedDown ? children : null}
         </div>
       );
+    }
+
+    if(heading) {
+      title = <div style={{marginLeft: 10}}>{heading}</div>
     }
 
     return (
@@ -38,7 +43,7 @@ export default class DropDown extends Component {
               droppedDown: !this.state.droppedDown,
               clicked: true
             });
-              
+
             if(onClick) onClick(this.state.clicked);
           }}
         >
@@ -46,6 +51,7 @@ export default class DropDown extends Component {
             className="guide__dropdown__icon"
             name={icon}
           />
+        {title}
         </div>
         {jsx}
       </div>

@@ -1,0 +1,84 @@
+.row { display: flex; flex-direction: row; }
+.row {
+  &--wc {
+    justify-content: center;
+  }
+
+  &--hc {
+    align-items: center;
+  }
+
+  &--around {
+    justify-content: space-around;
+  }
+
+  &--between {
+    justify-content: space-between;
+  }
+
+  &--wrap {
+    flex-wrap: wrap;
+  }
+}
+
+.fullrow { display: flex; flex-direction: row; width: 100%; }
+.fullrow {
+  &--wc {
+    justify-content: center;
+  }
+
+  &--hc {
+    align-items: center;
+  }
+
+  &--around {
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  &--between {
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.column { display: flex; flex-direction: column; }
+.column {
+  &--wc {
+    align-items: center;
+  }
+
+  &--hc {
+    justify-content: center;
+  }
+
+  &--around {
+    justify-content: space-around;
+  }
+
+  &--between {
+    justify-content: space-between;
+  }
+}
+
+.fullcolumn { display: flex; flex-direction: column; width:100%; }
+.fullcolumn {
+  &--wc {
+    align-items: center;
+  }
+
+  &--hc {
+    justify-content: center;
+  }
+
+
+  &--around {
+    justify-content: space-around;
+    align-items: center;
+  }
+
+  &--between {
+    justify-content: space-between;
+    align-items: center;
+  }
+}

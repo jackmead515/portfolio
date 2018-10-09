@@ -7,19 +7,25 @@ export default class Border extends Component {
 
     this.styles = {
       container: {
-        fontSize: 15,
-        color: '#cc4400'
+        fontSize: 18,
+        color: '#555'
       },
     }
   }
 
   render() {
-    const { style, time, displayNew } = this.props;
+    const { style, time, displayNew, showPast } = this.props;
 
+    let displayTime = null;
     let newDate = null;
     let t = moment(time);
     let n = moment().diff(t);
-    let timeAgo = t.from(moment());
+
+    if(showPast) {
+      displayTime = t.from(moment());
+    } else {
+      displayTime = t.format('MMMM Do, YYYY');
+    }
 
     if(n < 432000000 && displayNew) {
         newDate = <span style={{color: '#00e600', fontWeight: 'bold'}}>{'*NEW* '}</span>
@@ -27,7 +33,7 @@ export default class Border extends Component {
 
     return (
       <div style={{...this.styles.container, ...style}}>
-        {newDate}{timeAgo}
+        {newDate}{displayTime}
       </div>
     );
   }

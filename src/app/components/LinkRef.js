@@ -25,13 +25,14 @@ export default class LinkRef extends Component {
     let clickLink = onClickLink ? onClickLink : () => {};
 
     let iconjsx = null;
-    if(icon) iconjsx = <FAIcon name={icon} style={{color: '#00cccc', marginLeft: 10}}/>
+    if(icon) iconjsx = <FAIcon name={icon} style={{color: '#0000EE', marginLeft: 10}}/>
 
     let jsx = (
       <a
         className="content__link"
         href={link}
         target="_blank"
+        rel="noopener noreferrer"
         onClick={() => {
           clickLink(this.state.clicked)
           this.setState({clicked: true});

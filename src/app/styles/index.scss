@@ -1,49 +1,51 @@
-@import "./components/dashboard";
-@import "./components/footer";
 @import "./components/navigator";
 @import "./components/content";
 @import "./components/login";
 @import "./components/console";
 @import "./components/guide";
+@import "./components/guides";
 @import "./components/editor";
-@import "./components/voting";
-@import "./components/support";
-@import "./components/graphs";
-@import "./components/piegraph";
-@import "./components/linegraph";
-@import "./components/scattergraph";
 @import "./components/guidenav";
+@import "./components/comments";
+@import "./components/display";
+@import "./components/graphs";
+@import "./components/confirm";
+@import "./components/popuperror";
 
-//@import url('https://fonts.googleapis.com/css?family=Montserrat');
-//@import url('https://fonts.googleapis.com/css?family=Dosis:500');
-@import "./lib/Dosis/dosis.css";
-@import "./lib/Ubuntu/ubuntu.css";
 @import "./lib/OpenSans/opensans.css";
 @import "./lib/fontawesome/css/font-awesome.css";
 @import "./lib/animate/animate.css";
-@import "../../../node_modules/react-image-gallery/styles/css/image-gallery.css";
 
 body, html {
   margin: 0;
   padding: 0;
   width: 100%;
   max-width: 100%;
-  //font-family: 'Montserrat', sans-serif;
-  //font-family: 'Dosis', sans-serif;
-  //font-family: 'Ubuntu', sans-serif;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+p {
+  font-size: 18px;
+  color: black;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  line-height: 1.7;
+  margin: 0;
 }
 
 ::placeholder {
-  //font-family: 'Montserrat', sans-serif;
-  //font-family: 'Dosis', sans-serif;
-  //font-family: 'Ubuntu', sans-serif;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif !important;
   opacity: 0.7;
   color: inherit;
 }
 
-.row {
+.column {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.column--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

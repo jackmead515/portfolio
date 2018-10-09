@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 import FAIcon from 'react-fontawesome';
 import Widgets from './Widgets';
 
+import editorColors from '../../styles/editorColors';
+
 export default class CodeContent extends Component {
   constructor(props) {
     super(props);
 
     this.styles = {
       container: {
-        backgroundColor: 'rgba(0, 204, 204, 0.7)',
+        border: '5px solid ' + editorColors.link,
       },
       column: {
         display: 'flex',

@@ -4,7 +4,7 @@ import FAIcon from 'react-fontawesome';
 
 export default class EditorInput extends Component {
   render() {
-    const { value, onChange, placeholder, style, title, type } = this.props;
+    const { value, onChange, onEnter, placeholder, style, title, type } = this.props;
 
     return (
       <div className="editor__content__inputcontainer">
@@ -26,7 +26,12 @@ export default class EditorInput extends Component {
           value={value}
           style={{...style}}
           className="editor__content__titleinput"
-          onChange={(e) => onChange(e)}
+          onChange={(e) => onChange ? onChange(e): null}
+          onKeyDown={(e) => {
+            if(e.which === 13 && onEnter) {
+              onEnter(e);
+            }
+          }}
         />
       </div>
     );

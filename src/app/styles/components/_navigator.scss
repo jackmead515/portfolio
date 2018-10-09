@@ -30,6 +30,24 @@
     outline: none;
   }
 
+  &__output {
+    position: absolute;
+    padding: 10px;
+    font-size: 15px;
+    top: 40px;
+    left: 0px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__output--option {
+    margin-right: 5px;
+    text-shadow: 1px 1px 1px rgba(180, 180, 180, 1);
+    font-size: 15px;
+  }
+
   &__button {
     padding-left: 8px;
     padding-right: 8px;
@@ -124,9 +142,8 @@
     width: 100px;
     min-width: 100px;
     height: 30px;
-    border: 1px solid #e8e8e8;
     border-radius: 2px;
-    background-color: rgba(12, 209, 223, 0.7);
+    background-color: rgb(12, 209, 223);
     color: white;
     font-weight: bold;
     transition: background-color 0.3s;
@@ -134,25 +151,11 @@
 
   &__button:hover {
     cursor: pointer;
-    background-color: rgba(12, 209, 223, 1);
   }
 
   &__button:active {
     background-color: rgb(10, 182, 194);
     box-shadow: none;
-  }
-
-  &__input {
-    border: 0;
-    color: white;
-    background-color: #0cd1df;
-    background-color: rgba(12, 209, 223, 0.2);
-    border: 1px solid #e8e8e8;
-    padding: 5px;
-    width: 100%;
-    margin-right: 5px;
-    margin-left: 5px;
-    min-width: 150px;
   }
 
 }

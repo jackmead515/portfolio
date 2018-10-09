@@ -28,7 +28,7 @@
   border-radius: 2px;
   border: none;
   color: black;
-  width: 150px;
+  width: 200px;
 }
 
 .login__form__input:focus {
@@ -51,6 +51,7 @@
   background-color: rgb(12, 209, 223);
   color: white;
   font-weight: bold;
+  min-width: 100px;
   border: 0;
 }
 
@@ -58,6 +59,10 @@
   background-color: rgb(10, 182, 194);
   border: none;
   box-shadow: none;
+}
+
+.login__form__button:hover {
+  cursor: pointer;
 }
 
 .login__form__error {

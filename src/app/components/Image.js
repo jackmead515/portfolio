@@ -7,7 +7,7 @@ export default class Image extends Component {
 
     return (
         <div className="content__image__container" style={{...style}}>
-          <img className="content__image" src={source} alt="<not avaliable. Sorry peeps.>"/>
+          <img className="content__image" src={source} alt=""/>
         </div>
     );
   }

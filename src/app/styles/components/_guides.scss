@@ -1,0 +1,107 @@
+.guides {
+
+  &__container--full {
+    display: flex;
+    justify-content: flex-start;
+    max-width: 1100px;
+    margin: auto;
+  }
+
+  &__container--mobile {
+    display: flex;
+    align-items: flex-start;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  &__contentcontainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  &__topiccontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  &__topic {
+    font-size: 30px;
+    margin: 0;
+    font-weight: bold;
+  }
+
+  &__searchamount {
+    font-size: 25px;
+    margin: 0;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+
+  &__messagecontainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 40px;
+    max-width: 1000px;
+  }
+
+  &__searchinput {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1000px;
+    padding: 10px;
+    border: 0;
+  }
+
+  &__searchinputcontainer {
+    box-sizing: border-box;
+    display: flex;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    width: 100%;
+    border: 2px solid #e3e3e3;
+  }
+
+  &__exlinks__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    outline: none;
+    background-color: inherit;
+    padding: 10px;
+    font-size: 15px;
+  }
+
+  &__links__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0;
+    outline: none;
+    background-color: inherit;
+    min-width: 35px;
+    font-size: 15px;
+  }
+
+  &__exlinks__button:hover {
+    cursor: pointer;
+  }
+
+  &__links__button:hover {
+    cursor: pointer;
+  }
+
+}

@@ -2,24 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { navigateAdmin } from '../../actions/menu';
 
-import Login from './components/Login';
-import Console from './components/Console';
-import Editor from './components/Editor';
-import TopicEditor from './components/TopicEditor';
-import Graphs from './components/Graphs';
+import Login from './Login';
+import Console from './Console';
+import Editor from './Editor';
+import TopicEditor from './TopicEditor';
 
 class Admin extends Component {
 
   renderPage() {
-    const { page } = this.props.menu.admin;
+    const { match } = this.props;
 
-    switch(page) {
-      case 'LOGIN': return <Login />
-      case 'CONSOLE': return <Console />
-      case 'EDITOR': return <Editor />
-      case 'TOPIC_EDITOR': return <TopicEditor />
-      case 'GRAPHS': return <Graphs />
-      default: return <Login />
+    if(match.url.startsWith('/admin/g/') && match.params.guide) {
+      return <Editor searchTitle={match.params.guide} />
+    } else if(match.url.startsWith('/admin/t/') && match.params.topic) {
+      return <TopicEditor topicTitle={match.params.topic} />
+    } else if(match.url.startsWith('/admin')) {
+      return <Console />
     }
   }
 

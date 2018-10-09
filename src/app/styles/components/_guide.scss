@@ -1,37 +1,40 @@
 .guide {
 
   &__container {
-    padding: 5px;
-    max-width: 1000px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 100%;
+    max-width: 1100px;
     min-width: 300px;
   }
 
-  &__date-share__container {
-    width: 100%;
+  &__sharebutton__container {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
   }
-  
-  &__sharebutton {
-    &__container {
-      display: flex;
-      align-items: center;
-      border-radius: 3px;
-      padding: 1px;
-      padding-left: 8px;
-      padding-right: 8px;
-      background-color: #ff9900;
-      font-size: 15px;
-      font-weight: bold;
-      color: white;
-      text-shadow: 1px 1px 2px rgba(150, 150, 150, 1);
-    }
 
-    &__icon:hover {
-      cursor: pointer;
-    }
+  &__dateshare__container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__sharebutton__img {
+    width: 15px;
+    height: 15px;
+    border: 0;
+    box-shadow: 0;
+  }
+
+  &__date {
+    font-size: 17px;
+    color: #555;
+  }
+
+  &__analytics {
+    font-size: 15px;
+    color: black;
   }
 
   &__title__container {
@@ -39,16 +42,47 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  &__titleimage__container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &__title {
+    color: #00aaff;
+    margin: 0;
     font-weight: 800;
     font-size: 30px;
   }
 
+  &__title__link {
+    text-decoration: none;
+  }
+
   &__subtitle {
-    font-weight: 600;
-    font-size: 18px;
+    margin: 0;
+    font-weight: normal;
+    color: #808080;
+    color: #555;
+    font-size: 17px;
+  }
+
+  &__titleimage {
+    display: block;
+    margin: 0;
+    padding: 0;
+    max-width: 200px;
+    max-height: 120px;
+    transition: transform 0.3s;
+  }
+
+  &__titleimage:hover {
+    transform: scale(1.1);
   }
 
   &__dropdown__container {
@@ -80,7 +114,6 @@
   }
 
   &__content__container {
-    border-top: 1px solid black;
     width: 100%;
     display: flex;
     flex-direction: column;

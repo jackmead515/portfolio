@@ -1,0 +1,40 @@
+.popuperror {
+
+  &__container {
+    z-index: 1;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    width: 300px;
+    margin-left: -150px;
+    color: #555;
+    background-color: white;
+    border: 2px solid #e3e3e3;
+    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  &__button {
+    padding: 5px;
+    text-align: center;
+    border: 2px solid #e3e3e3;
+    min-width: 100px;
+    font-weight: bold;
+    transition: background-color 0.1s;
+    margin-top: 10px;
+  }
+
+  &__button:hover {
+    cursor: pointer;
+    background-color: #cccccc;
+  }
+
+}
